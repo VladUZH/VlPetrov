@@ -77,4 +77,67 @@ public class OsDc{
         return 0;
     }
 
+    public long getExtreme() {
+        return extreme;
+    }
+
+    public void setExtreme(long extreme) {
+        this.extreme = extreme;
+    }
+
+    public float getThresholdUp() {
+        return thresholdUp;
+    }
+
+    public void setThresholdUp(float thresholdUp) {
+        this.thresholdUp = thresholdUp;
+    }
+
+    public float getThresholdDown() {
+        return thresholdDown;
+    }
+
+    public void setThresholdDown(float thresholdDown) {
+        this.thresholdDown = thresholdDown;
+    }
+
+    public float getOsSizeUp() {
+        return osSizeUp;
+    }
+
+    public void setOsSizeUp(float osSizeUp) {
+        this.osSizeUp = osSizeUp;
+    }
+
+    public float getOsSizeDown() {
+        return osSizeDown;
+    }
+
+    public void setOsSizeDown(float osSizeDown) {
+        this.osSizeDown = osSizeDown;
+    }
+
+    public int getMode() {
+        return mode;
+    }
+
+    public void setMode(int mode) {
+        this.mode = mode;
+    }
+
+    public boolean isInitialized() {
+        return initialized;
+    }
+
+    public void setInitialized(boolean initialized) {
+        this.initialized = initialized;
+    }
+
+    public long getReference() {
+        return reference;
+    }
+
+    public void setReference(long reference) {
+        this.reference = reference;
+    }
 }
