@@ -10,6 +10,7 @@ package ievents; // stands for IntrinsicEvents
 public class DcOS{
 
     private long extreme;
+    private long prevExtreme;
     private float thresholdUp;  // 1% == 0.01
     private float thresholdDown;
     private float osSizeUp;
@@ -34,15 +35,13 @@ public class DcOS{
         this.mode = initialMode;
         this.osSizeUp = osSizeUp;
         this.osSizeDown = osSizeDown;
-        extreme = (mode == 1 ? initPrice.getAsk() : initPrice.getBid());
-        reference = extreme;
+        extreme = prevExtreme = reference = (mode == 1 ? initPrice.getAsk() : initPrice.getBid());
     }
 
     public int run(Price aPrice){
         if (!initialized){
             initialized = true;
-            extreme = (mode == 1 ? aPrice.getAsk() : aPrice.getBid());
-            reference = extreme;
+            extreme = prevExtreme = reference =  (mode == 1 ? aPrice.getAsk() : aPrice.getBid());
         } else {
             if (mode == 1){
                 if (aPrice.getAsk() < extreme){
@@ -53,7 +52,8 @@ public class DcOS{
                     }
                     return 0;
                 } else if (Math.log((double) aPrice.getBid() / extreme) >= thresholdUp){
-                    extreme = aPrice.getBid();
+                    prevExtreme = extreme;
+                    extreme = reference = aPrice.getBid();
                     mode *= -1;
                     return 1;
                 }
@@ -66,8 +66,9 @@ public class DcOS{
                         return 2;
                     }
                     return 0;
-                } else if (-Math.log(aPrice.getAsk() / extreme) >= thresholdDown){
-                    extreme = aPrice.getAsk();
+                } else if (-Math.log((double) aPrice.getAsk() / extreme) >= thresholdDown){
+                    prevExtreme = extreme;
+                    extreme = reference = aPrice.getAsk();
                     mode *= -1;
                     return -1;
                 }
@@ -80,6 +81,8 @@ public class DcOS{
     public long getExtreme() {
         return extreme;
     }
+
+    public long getPrevExtreme() { return prevExtreme; }
 
     public void setExtreme(long extreme) {
         this.extreme = extreme;
