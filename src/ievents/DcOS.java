@@ -18,7 +18,7 @@ public class DcOS{
     private boolean initialized;
     private long reference;
 
-    DcOS(float thresholdUp, float thresholdDown, int initialMode, float osSizeUp, float osSizeDown){
+    public DcOS(float thresholdUp, float thresholdDown, int initialMode, float osSizeUp, float osSizeDown){
         this.initialized = false;
         this.thresholdUp = thresholdUp;
         this.thresholdDown = thresholdDown;
@@ -27,7 +27,7 @@ public class DcOS{
         this.osSizeDown = osSizeDown;
     }
 
-    DcOS(float thresholdUp, float thresholdDown, int initialMode, float osSizeUp, float osSizeDown, Price initPrice){
+    public DcOS(float thresholdUp, float thresholdDown, int initialMode, float osSizeUp, float osSizeDown, Price initPrice){
         this.initialized = true;
         this.thresholdUp = thresholdUp;
         this.thresholdDown = thresholdDown;
