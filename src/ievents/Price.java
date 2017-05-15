@@ -12,13 +12,15 @@ public class Price {
     private long bid;
     private long ask;
     private long time;
+    private int nDecimals; //this value is saved in order to show how many decimals has the original(not Long) value
 
     public Price(){}
 
-    public Price(long bid, long ask, long time){
+    public Price(long bid, long ask, long time, int nDecimals){
         this.bid = bid;
         this.ask = ask;
         this.time = time;
+        this.nDecimals = nDecimals;
     }
 
     public long getAsk() {
