@@ -9,10 +9,7 @@ import java.util.Random;
  */
 public class GBM {
 
-    private float initialValue;
     private float sigma;
-    private int nYears;
-    private long nGenerations;
     private float mu;
     private float deltaT;
     private float prevValue;
@@ -27,10 +24,7 @@ public class GBM {
      * @param mu            - yearly trend;
      */
     public GBM(float initialValue, float sigma, int nYears, long nGenerations, float mu){
-        this.initialValue = initialValue;
         this.sigma = sigma;
-        this.nYears = nYears;
-        this.nGenerations = nGenerations;
         this.mu = mu;
         deltaT = (float) nYears / nGenerations;
         prevValue = initialValue;
