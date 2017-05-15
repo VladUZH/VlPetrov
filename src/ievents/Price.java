@@ -13,9 +13,9 @@ public class Price {
     private long ask;
     private long time;
 
-    Price(){}
+    public Price(){}
 
-    Price(int bid, int ask, long time){
+    public Price(int bid, int ask, long time){
         this.bid = bid;
         this.ask = ask;
         this.time = time;
