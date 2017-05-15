@@ -7,7 +7,7 @@ package ievents; // stands for IntrinsicEvents
  * an Overshoot (OS) IE upward or downward. Otherwise, returns 0;
  */
 
-public class OsDc{
+public class DcOS{
 
     private long extreme;
     private float thresholdUp;  // 1% == 0.01
@@ -18,7 +18,7 @@ public class OsDc{
     private boolean initialized;
     private long reference;
 
-    OsDc(float thresholdUp, float thresholdDown, int initialMode, float osSizeUp, float osSizeDown){
+    DcOS(float thresholdUp, float thresholdDown, int initialMode, float osSizeUp, float osSizeDown){
         this.initialized = false;
         this.thresholdUp = thresholdUp;
         this.thresholdDown = thresholdDown;
@@ -27,7 +27,7 @@ public class OsDc{
         this.osSizeDown = osSizeDown;
     }
 
-    OsDc(float thresholdUp, float thresholdDown, int initialMode, float osSizeUp, float osSizeDown, Price initPrice){
+    DcOS(float thresholdUp, float thresholdDown, int initialMode, float osSizeUp, float osSizeDown, Price initPrice){
         this.initialized = true;
         this.thresholdUp = thresholdUp;
         this.thresholdDown = thresholdDown;
