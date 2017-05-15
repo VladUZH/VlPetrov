@@ -34,13 +34,20 @@ public class Price {
     public long getTime() {
         return time;
     }
-
+    
+    public int getnDecimals() {
+        return nDecimals;
+    }
     public float getMid(){
         return (bid + ask) / 2.0f;
     }
 
     public void setAsk(int ask){
         this.ask = ask;
+    }
+
+    public void setBid(int bid){
+        this.bid = bid;
     }
 
     public void setTime(long time){
