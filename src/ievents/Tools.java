@@ -28,4 +28,23 @@ public class Tools {
         return dirCreated;
     }
 
+    /**
+     * The function GenerateLogSpace generates a list of logarithmically distributed values.
+     * @param min
+     * @param max
+     * @param nBins
+     * @return array of logarithmically distributed floats
+     */
+    public static float[] GenerateLogSpace(float min, float max, int nBins)
+    {
+        float[] logList = new float[nBins];
+        float m = 1.0f / (nBins - 1);
+        float quotient =  (float) Math.pow(max / min, m);
+        logList[0] = min;
+        for (int i = 1; i < nBins; i++){
+            logList[i] = logList[i - 1] * quotient;
+        }
+        return logList;
+    }
+
 }
