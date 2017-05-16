@@ -36,9 +36,9 @@ public class Tools {
      * @param nBins
      * @return array of logarithmically distributed floats
      */
-    public static float[] GenerateLogSpace(float min, float max, int nBins)
+    public static double[] GenerateLogSpace(float min, float max, int nBins)
     {
-        float[] logList = new float[nBins];
+        double[] logList = new double[nBins];
         float m = 1.0f / (nBins - 1);
         float quotient =  (float) Math.pow(max / min, m);
         logList[0] = min;
