@@ -60,4 +60,42 @@ public class Tools {
         return corrCoeff * inputRand + Math.sqrt(1 - corrCoeff * corrCoeff) * random.nextGaussian();
     }
 
+    /**
+     * The function computes parameters of the simple linear regression. It takes two arrays (X and Y) and returns an
+     * array of three parameters: slope, intersection, correlation coefficient.
+     * @param setX is input x
+     * @param setY is input y
+     * @return float array: slope, intersection, correlation coefficient
+     */
+    public static double[] linRegres(double[] setX, double[] setY)
+    {
+        double sumx  = 0.0;                     // sum { x[i],      i = 1..n }
+        double sumy  = 0.0;                     // sum { y[i],      i = 1..n }
+        double sumx2 = 0.0;                     // sum { x[i]*x[i], i = 1..n }
+        double sumy2 = 0.0;                     // sum { y[i]*y[i], i = 1..n }
+        double sumxy = 0.0;                     // sum { x[i]*y[i], i = 1..n }
+        int lenInput = setX.length;
+        // read data and compute statistics
+        for (int i = 0; i < lenInput; i++) {
+            sumx  += setX[i];
+            sumy  += setY[i];
+            sumx2 += setX[i] * setX[i];
+            sumy2 += setY[i] * setY[i];
+            sumxy += setX[i] * setY[i];
+        }
+        double slope = (lenInput * sumxy - sumx * sumy) / (lenInput * sumx2 - sumx * sumx);
+        double intersect = (sumy - slope * sumx) / lenInput;
+        double corrCoef = (lenInput * sumxy - sumx * sumy) / Math.sqrt((lenInput * sumx2 - sumx * sumx) * (lenInput * sumy2 - sumy * sumy));
+
+        double[] toReturn = new double[3];
+        toReturn[0] = slope;
+        toReturn[1] = intersect;
+        toReturn[2] = corrCoef;
+
+        return toReturn;
+    }
+
+
+
+
 }
