@@ -95,6 +95,19 @@ public class Tools {
         return toReturn;
     }
 
+    /**
+     * The function to compute log values of an array.
+     * @param inputArray is what you want to convert to log values
+     * @return array with logs of the initial values
+     */
+    public static double[] toLog(double[] inputArray){
+        double[] logArray = new double[inputArray.length];
+        for (int i = 0; i < inputArray.length; i++){
+            logArray[i] = Math.log(inputArray[i]);
+        }
+        return logArray;
+    }
+
 
 
 
