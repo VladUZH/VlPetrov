@@ -25,7 +25,7 @@ import java.util.Date;
 
 public class DCcountScalingLaw {
 
-    private float[] arrayDeltas;
+    private double[] arrayDeltas;
     private DcOs[] dcOses;
     private double numDCs[];
     private int numPoints;
@@ -41,7 +41,7 @@ public class DCcountScalingLaw {
         arrayDeltas = Tools.GenerateLogSpace(lowDelta, higDelta, numPoints);
         dcOses = new DcOs[numPoints];
         for (int i = 0; i < numPoints; i++){
-            float delta = arrayDeltas[i];
+            double delta = arrayDeltas[i];
             dcOses[i] = new DcOs(delta, delta, 1, delta, delta);
         }
         numDCs = new double[numPoints];
@@ -99,7 +99,7 @@ public class DCcountScalingLaw {
         return numDCs;
     }
 
-    public float[] getArrayDeltas() {
+    public double[] getArrayDeltas() {
         return arrayDeltas;
     }
 }
