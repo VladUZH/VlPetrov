@@ -1,6 +1,7 @@
 package ievents;
 
 import java.io.File;
+import java.util.Random;
 
 /**
  * Created by author.
@@ -45,6 +46,18 @@ public class Tools {
             logList[i] = logList[i - 1] * quotient;
         }
         return logList;
+    }
+
+    /**
+     * The function returns a random value which is correlated with the random input value. The formula has been taken from the
+     * https://quant.stackexchange.com/questions/24472/two-correlated-brownian-motions.
+     * @param inputRand is the input value which you want to use as the original value.
+     * @param corrCoeff is the size of the correlation coeff.
+     * @return correlated value.
+     */
+    public static double getCorrelatedRandom(double inputRand, double corrCoeff){
+        Random random = new Random();
+        return corrCoeff * inputRand + Math.sqrt(1 - corrCoeff * corrCoeff) * random.nextGaussian();
     }
 
 }
