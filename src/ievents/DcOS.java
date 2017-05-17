@@ -100,6 +100,11 @@ public class DcOS{
         return osVariability;
     }
 
+    /**
+     * The function find the size of an overshoot, details in "Patterns in high-frequency FX data: Discovery of 12
+     * empirical scaling laws"
+     * @return size of OS, percentage
+     */
     public double computeOSsize(){
         return Math.abs(Math.log((double) latestDCprice / prevDCprice));
     }
