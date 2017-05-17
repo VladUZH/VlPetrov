@@ -110,6 +110,26 @@ public class Tools {
         return logArray;
     }
 
+    /**
+     * The function is dedicated to the computation of the scaling law parameters. These parameters are C, E and
+     * R-squared. The used formula was found in the page 13 of the "Patterns in high-frequency FX data: Discovery
+     * of 12 empirical scaling laws J.B.".
+     * @param arrayX is array x values
+     * @param arrayY is array y values
+     * @return a double array of the following values: [C, E, r^2]
+     */
+    public static double[] computeScalingParams(double[] arrayX, double[] arrayY){
+        double[] linRegParam = Tools.linRegres(Tools.toLog(arrayX), Tools.toLog(arrayY));
+        double[] params = new double[3];
+        double paramC = Math.exp(-linRegParam[1] / linRegParam[0]);
+        params[0] = paramC;
+        double paramE = linRegParam[0];
+        params[1] = paramE;
+        double rSqrt = linRegParam[2];
+        params[2] = rSqrt;
+        return params;
+    }
+
 
 
 
