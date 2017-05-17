@@ -85,6 +85,21 @@ public class DcOS{
         return 0;
     }
 
+    /**
+     * The function computes OS variability defined like a squared difference between the size of overshoot and
+     * correspondent threshold. Details can be found in "Bridging the gap between physical and intrinsic time"
+     * @return double variability of an overshoot.
+     */
+    public double computeOSvariability(){
+        double osVariability;
+        if (mode == 1){
+            osVariability = Math.pow(computeOSsize() - thresholdUp, 2);
+        } else {
+            osVariability = Math.pow(computeOSsize() - thresholdDown, 2);
+        }
+        return osVariability;
+    }
+
     public double computeOSsize(){
         return Math.abs(Math.log((double) latestDCprice / prevDCprice));
     }
