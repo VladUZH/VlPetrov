@@ -65,7 +65,7 @@ public class Tools {
      * array of three parameters: slope, intersection, correlation coefficient.
      * @param setX is input x
      * @param setY is input y
-     * @return float array: slope, intersection, correlation coefficient
+     * @return float array: slope, intersection, r-sqrt (error)
      */
     public static double[] linRegres(double[] setX, double[] setY)
     {
@@ -85,12 +85,12 @@ public class Tools {
         }
         double slope = (lenInput * sumxy - sumx * sumy) / (lenInput * sumx2 - sumx * sumx);
         double intersect = (sumy - slope * sumx) / lenInput;
-        double corrCoef = (lenInput * sumxy - sumx * sumy) / Math.sqrt((lenInput * sumx2 - sumx * sumx) * (lenInput * sumy2 - sumy * sumy));
+        double rSqrt = Math.pow((lenInput * sumxy - sumx * sumy) / Math.sqrt((lenInput * sumx2 - sumx * sumx) * (lenInput * sumy2 - sumy * sumy)), 2);
 
         double[] toReturn = new double[3];
         toReturn[0] = slope;
         toReturn[1] = intersect;
-        toReturn[2] = corrCoef;
+        toReturn[2] = rSqrt;
 
         return toReturn;
     }
@@ -103,10 +103,14 @@ public class Tools {
     public static double[] toLog(double[] inputArray){
         double[] logArray = new double[inputArray.length];
         for (int i = 0; i < inputArray.length; i++){
-            logArray[i] = Math.log(inputArray[i]);
+            if (inputArray[i] != 0){
+                logArray[i] = Math.log(inputArray[i]);
+            }
         }
         return logArray;
     }
+
+
 
 
 
