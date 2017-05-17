@@ -23,10 +23,10 @@ public class GBM {
      * @param nGenerations  - total number of generations;
      * @param mu            - yearly trend;
      */
-    public GBM(float initialValue, float sigma, int nYears, long nGenerations, float mu){
+    public GBM(float initialValue, float sigma, float nYears, long nGenerations, float mu){
         this.sigma = sigma;
         this.mu = mu;
-        deltaT = (float) nYears / nGenerations;
+        deltaT = nYears / nGenerations;
         prevValue = initialValue;
         rand = new Random();
         initiated = false;
