@@ -113,7 +113,9 @@ public class Tools {
     /**
      * The function is dedicated to the computation of the scaling law parameters. These parameters are C, E and
      * R-squared. The used formula was found in the page 13 of the "Patterns in high-frequency FX data: Discovery
-     * of 12 empirical scaling laws J.B.".
+     * of 12 empirical scaling laws J.B.". IMPORTANT! For the scaling laws here we use 0.01 to define 1%. In the
+     * original article they use 1.0 for the same value. Therefore, the parameter C should be multiplied by 100
+     * in order to have the comparable coefficients.
      * @param arrayX is array x values
      * @param arrayY is array y values
      * @return a double array of the following values: [C, E, r^2]
