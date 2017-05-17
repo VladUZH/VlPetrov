@@ -75,6 +75,15 @@ public class DCcountScalingLaw {
     }
 
     /**
+     * The function finds the scaling law parameters defined in "Patterns in high-frequency FX data: Discovery of 12
+     * empirical scaling laws J.B.", page 13
+     * @return the same what the function Tools.computeScalingParams returns
+     */
+    public double[] computeParams(){
+        return Tools.computeScalingParams(arrayDeltas, numDCs);
+    }
+
+    /**
      *
      * @param dirName is the name of the output folder.
      */
