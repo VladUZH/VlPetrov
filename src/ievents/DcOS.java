@@ -11,15 +11,15 @@ public class DcOS{
 
     private long extreme;
     private long prevExtreme;
-    private float thresholdUp;  // 1% == 0.01
-    private float thresholdDown;
-    private float osSizeUp;
-    private float osSizeDown;
+    private double thresholdUp;  // 1% == 0.01
+    private double thresholdDown;
+    private double osSizeUp;
+    private double osSizeDown;
     private int mode; // +1 for expected upward DC, -1 for expected downward DC
     private boolean initialized;
     private long reference;
 
-    public DcOS(float thresholdUp, float thresholdDown, int initialMode, float osSizeUp, float osSizeDown){
+    public DcOS(double thresholdUp, double thresholdDown, int initialMode, double osSizeUp, double osSizeDown){
         this.initialized = false;
         this.thresholdUp = thresholdUp;
         this.thresholdDown = thresholdDown;
@@ -28,7 +28,7 @@ public class DcOS{
         this.osSizeDown = osSizeDown;
     }
 
-    public DcOS(float thresholdUp, float thresholdDown, int initialMode, float osSizeUp, float osSizeDown, Price initPrice){
+    public DcOS(double thresholdUp, double thresholdDown, int initialMode, double osSizeUp, double osSizeDown, Price initPrice){
         this.initialized = true;
         this.thresholdUp = thresholdUp;
         this.thresholdDown = thresholdDown;
@@ -88,7 +88,7 @@ public class DcOS{
         this.extreme = extreme;
     }
 
-    public float getThresholdUp() {
+    public double getThresholdUp() {
         return thresholdUp;
     }
 
@@ -96,7 +96,7 @@ public class DcOS{
         this.thresholdUp = thresholdUp;
     }
 
-    public float getThresholdDown() {
+    public double getThresholdDown() {
         return thresholdDown;
     }
 
@@ -104,7 +104,7 @@ public class DcOS{
         this.thresholdDown = thresholdDown;
     }
 
-    public float getOsSizeUp() {
+    public double getOsSizeUp() {
         return osSizeUp;
     }
 
@@ -112,7 +112,7 @@ public class DcOS{
         this.osSizeUp = osSizeUp;
     }
 
-    public float getOsSizeDown() {
+    public double getOsSizeDown() {
         return osSizeDown;
     }
 
