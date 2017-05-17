@@ -68,7 +68,7 @@ public class DCcountScalingLaw {
      * @param finalTime is the time in milliseconds of the lst used price
      */
     public void normalize(long startTime, long finalTime){
-        double normalCoeff = (finalTime - startTime) / (double) MLSEC_IN_YEAR;
+        double normalCoeff = (double) MLSEC_IN_YEAR / (finalTime - startTime) ;
         for (int i = 0; i < numPoints; i++){
             numDCs[i] *= normalCoeff;
         }
