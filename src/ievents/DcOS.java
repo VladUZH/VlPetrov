@@ -85,6 +85,9 @@ public class DcOS{
         return 0;
     }
 
+    public double computeOSsize(){
+        return Math.abs(Math.log((double) latestDCprice / prevDCprice));
+    }
 
     public long getLatestDCprice() {
         return latestDCprice;
