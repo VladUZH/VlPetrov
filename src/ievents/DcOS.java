@@ -18,6 +18,8 @@ public class DcOS{
     private int mode; // +1 for expected upward DC, -1 for expected downward DC
     private boolean initialized;
     private long reference;
+    private Price latestDCprice; // this is the price of the latest registered DC IE
+    private Price prevDCprice; // this is the price of the DC IE before the latest one
 
     public DcOS(double thresholdUp, double thresholdDown, int initialMode, double osSizeUp, double osSizeDown){
         this.initialized = false;
@@ -36,6 +38,7 @@ public class DcOS{
         this.osSizeUp = osSizeUp;
         this.osSizeDown = osSizeDown;
         extreme = prevExtreme = reference = (mode == 1 ? initPrice.getAsk() : initPrice.getBid());
+        prevDCprice = latestDCprice = initPrice;
     }
 
     public int run(Price aPrice){
@@ -52,6 +55,8 @@ public class DcOS{
                     }
                     return 0;
                 } else if (Math.log((double) aPrice.getBid() / extreme) >= thresholdUp){
+                    prevDCprice = latestDCprice;
+                    latestDCprice = aPrice;
                     prevExtreme = extreme;
                     extreme = reference = aPrice.getBid();
                     mode *= -1;
@@ -67,6 +72,8 @@ public class DcOS{
                     }
                     return 0;
                 } else if (-Math.log((double) aPrice.getAsk() / extreme) >= thresholdDown){
+                    prevDCprice = latestDCprice;
+                    latestDCprice = aPrice;
                     prevExtreme = extreme;
                     extreme = reference = aPrice.getAsk();
                     mode *= -1;
@@ -76,6 +83,14 @@ public class DcOS{
         }
 
         return 0;
+    }
+
+    public Price getLatestDCprice() {
+        return latestDCprice;
+    }
+
+    public Price getPrevDCprice() {
+        return prevDCprice;
     }
 
     public long getExtreme() {
