@@ -44,7 +44,7 @@ public class DcOS{
     public int run(Price aPrice){
         if (!initialized){
             initialized = true;
-            extreme = prevExtreme = reference =  (mode == 1 ? aPrice.getAsk() : aPrice.getBid());
+            extreme = prevExtreme = reference = prevDCprice = latestDCprice =(mode == 1 ? aPrice.getAsk() : aPrice.getBid());
         } else {
             if (mode == 1){
                 if (aPrice.getAsk() < extreme){
