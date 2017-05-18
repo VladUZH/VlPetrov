@@ -1,6 +1,11 @@
 package ievents;
 
 import java.io.File;
+import java.text.DateFormat;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+import java.util.Locale;
 import java.util.Random;
 
 /**
@@ -130,6 +135,23 @@ public class Tools {
         double rSqrt = linRegParam[2];
         params[2] = rSqrt;
         return params;
+    }
+
+
+    /**
+     * The method converts a String into a Date instance.
+     * @param inputStringDate is the date in the String format, for example "1992.12.01 13:23:54.012"
+     * @param dateFormat is the date format, for example "yyyy.MM.dd HH:mm:ss.SSS"
+     * @return converted to the Date format
+     */
+    public static Date stringToDate(String inputStringDate, String dateFormat){
+        DateFormat formatDate = new SimpleDateFormat(dateFormat, Locale.ENGLISH);
+        try {
+            return formatDate.parse(inputStringDate);
+        } catch (ParseException e){
+            e.printStackTrace();
+            return null;
+        }
     }
 
 
