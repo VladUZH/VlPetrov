@@ -78,8 +78,11 @@ public class VolatilitySeasonality {
     private int findBeanId(long dcTime){
         DateTime dcDateTime = new DateTime(dcTime);
         long mondayBeforeTime = dcDateTime.withDayOfWeek(DateTimeConstants.MONDAY).withTimeAtStartOfDay().getMillis();
-        long millsFromMonday = dcTime - mondayBeforeTime;
-        millsFromMonday = 600000;
+        long millsFromMonday = dcTime - mondayBeforeTime - 1;
+        if (millsFromMonday > MLS_WEAK){
+            System.out.println("ATTENTION! Winter time");
+            millsFromMonday -= 3600000;
+        }
         return (int)(millsFromMonday / timeOfBean);
     }
 
