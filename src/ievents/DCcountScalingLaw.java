@@ -26,7 +26,7 @@ import java.util.Date;
 public class DCcountScalingLaw {
 
     private double[] arrayDeltas;
-    private DcOs[] dcOses;
+    private DcOS[] dcOses;
     private double numDCs[];
     private int numPoints;
     private final long MLSEC_IN_YEAR = 31557600000L;
@@ -39,10 +39,10 @@ public class DCcountScalingLaw {
      */
     public DCcountScalingLaw(float lowDelta, float higDelta, int numPoints){
         arrayDeltas = Tools.GenerateLogSpace(lowDelta, higDelta, numPoints);
-        dcOses = new DcOs[numPoints];
+        dcOses = new DcOS[numPoints];
         for (int i = 0; i < numPoints; i++){
             double delta = arrayDeltas[i];
-            dcOses[i] = new DcOs(delta, delta, 1, delta, delta);
+            dcOses[i] = new DcOS(delta, delta, 1, delta, delta);
         }
         numDCs = new double[numPoints];
         this.numPoints = numPoints;
