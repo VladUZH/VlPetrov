@@ -154,6 +154,30 @@ public class Tools {
         }
     }
 
+    /**
+     * This method should convert a string of information about price to the proper Price format.
+     * @param inputString is a string which describes a price. For example, "1.23,1.24,12213"
+     * @param delimiter in the previous example the delimiter is ","
+     * @param nDecimals is how many numbers a price has after the point. 2 in the example
+     * @param dateFormat is the date format if any. Otherwise, one should write ""
+     * @param askIndex index of the ask price in the string format
+     * @param bidIndex index of the bid price in the string format
+     * @param timeIndex index of the time in the string format
+     * @return an instance Price
+     */
+    public static Price priceLineToPrice(String inputString, String delimiter, int nDecimals, String dateFormat, int askIndex, int bidIndex, int timeIndex){
+        String[] priceInfo = inputString.split(delimiter);
+        long bid = (long) (Double.parseDouble(priceInfo[bidIndex]) * Math.pow(10, nDecimals));
+        long ask = (long) (Double.parseDouble(priceInfo[askIndex]) * Math.pow(10, nDecimals));
+        long time;
+        if (dateFormat.equals("")){
+            time = Long.parseLong(priceInfo[timeIndex]) * 1000L;
+        } else {
+            time = stringToDate(priceInfo[timeIndex], dateFormat).getTime();
+        }
+        return new Price(bid, ask, time, nDecimals);
+    }
+
 
 
 
