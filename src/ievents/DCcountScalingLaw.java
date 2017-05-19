@@ -30,6 +30,7 @@ public class DCcountScalingLaw {
     private double numDCs[];
     private int numPoints;
     private final long MLSEC_IN_YEAR = 31557600000L;
+    private double[] scalingLawParam;
 
     /**
      * The constructor of the class.
@@ -80,7 +81,8 @@ public class DCcountScalingLaw {
      * @return the same what the function Tools.computeScalingParams returns
      */
     public double[] computeParams(){
-        return Tools.computeScalingParams(arrayDeltas, numDCs);
+        scalingLawParam = Tools.computeScalingParams(arrayDeltas, numDCs);
+        return scalingLawParam;
     }
 
     /**
