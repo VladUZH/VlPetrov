@@ -155,7 +155,8 @@ public class Tools {
     }
 
     /**
-     * This method should convert a string of information about price to the proper Price format.
+     * This method should convert a string of information about price to the proper Price format. IMPORTANT: by default
+     * the time of a price is supposed to be given in sec.
      * @param inputString is a string which describes a price. For example, "1.23,1.24,12213"
      * @param delimiter in the previous example the delimiter is ","
      * @param nDecimals is how many numbers a price has after the point. 2 in the example
