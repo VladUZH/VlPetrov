@@ -106,6 +106,16 @@ public class DCcountScalingLaw {
         }
     }
 
+    /**
+     * The function should return size of the best threshold which in average registers nDCs within timeInterval
+     * @param timeInterval is the period of time used to find the best threshold
+     * @param expectedNDCs is how many DC IEs we would like to have in the given time interval (in average)
+     * @return
+     */
+    public double findBestThreshold(long timeInterval, int expectedNDCs){
+        return Math.pow(expectedNDCs * MLSEC_IN_YEAR / (double) timeInterval, (1.0 / scalingLawParam[1])) * scalingLawParam[0];
+    }
+
     public double[] getNumDCs() {
         return numDCs;
     }
