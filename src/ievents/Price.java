@@ -54,4 +54,8 @@ public class Price {
         this.time = time;
     }
 
+    public long getSpread(){
+        return ask - bid;
+    }
+
 }
