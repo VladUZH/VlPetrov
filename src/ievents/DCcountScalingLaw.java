@@ -108,7 +108,7 @@ public class DCcountScalingLaw {
 
     /**
      * The function should return size of the best threshold which in average registers nDCs within timeInterval
-     * @param timeInterval is the period of time used to find the best threshold
+     * @param timeInterval is the period of time used to find the best threshold, in milliseconds
      * @param expectedNDCs is how many DC IEs we would like to have in the given time interval (in average)
      * @return
      */
