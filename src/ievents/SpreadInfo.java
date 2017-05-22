@@ -14,7 +14,7 @@ public class SpreadInfo {
     private int minSpread;
     private int maxSpread;
     private double meanSpread;
-    TreeMap<Integer, Integer> spreadTreeMap;
+    private TreeMap<Integer, Integer> spreadTreeMap;
     private long nPrices;
 
     public SpreadInfo(){
