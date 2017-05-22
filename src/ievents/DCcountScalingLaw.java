@@ -73,6 +73,7 @@ public class DCcountScalingLaw {
         for (int i = 0; i < numPoints; i++){
             numDCs[i] *= normalCoeff;
         }
+        System.out.println("Normalize coefficients to 1 year: DONE");
     }
 
     /**
