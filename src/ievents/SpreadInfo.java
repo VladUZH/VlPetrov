@@ -76,6 +76,11 @@ public class SpreadInfo {
         return (double) sumValues / nPrices;
     }
 
+    public void printReport(){
+        System.out.println("SpreadInfo: \nNum Prices: "  + nPrices + "; Min: " + minSpread + "; Max: " + maxSpread +
+                "; Mean: " + meanSpread + "; Median: " + medianSpread + "\n");
+    }
+
     public int getMedianSpread() {
         return medianSpread;
     }
