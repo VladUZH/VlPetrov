@@ -22,18 +22,11 @@ import org.joda.time.DateTimeConstants;
  */
 public class VolatilitySeasonality {
 
-//    private static int N_DELTAS = 10; // how many thresholds we use in order to find the DCcountScalingLaw
-//    private static float MIN_DELTA = 0.0001f; // the lowest threshold used fot the DCcountScalingLaw
-//    private static float MAX_DELTA = 0.05f; // the biggest threshold used fot the DCcountScalingLaw
     private static final long MLS_WEAK = 604800000; // number of milliseconds in a week
     private double threshold; // size of the threshold used to find the number of DC and the variability of overshoots
     private long timeOfBean; // defines the length (in milliseconds) of one bean
-//    private DCcountScalingLaw dCcountScalingLaw; // will be computed in order to find the best threshold for the chosen bean size
-//    private ArrayList<Long> dcTimes; // here we hold times of all DC IEs.
-//    private ArrayList<Double> osVariabilities; // all OSs variabilityes the DCs in dcPrices.
     private DcOS dCoS; // an instance of the DcOS class which is used to compute all interested parameters.
     private long nBeansInWeek; // how many beans we have in one week considering the chosen bean size.
-//    private long referenceTime = 0; // reference time which is supposed to be used to find an Id of a bean when a DC IE occurs
     private double[] activityList; // here we will store activity data for every bean.
     private long timeFirstDC; // holds time of the first registered DC; will be used in the "computeTotalNumBeans"
     private long timeLastDC; // holds time of the last registered DC; will be used in the "computeTotalNumBeans"
