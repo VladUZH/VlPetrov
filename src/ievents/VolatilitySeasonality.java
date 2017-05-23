@@ -23,7 +23,6 @@ import org.joda.time.DateTimeConstants;
 public class VolatilitySeasonality {
 
     private static final long MLS_WEAK = 604800000; // number of milliseconds in a week
-    private double threshold; // size of the threshold used to find the number of DC and the variability of overshoots
     private long timeOfBean; // defines the length (in milliseconds) of one bean
     private DcOS dCoS; // an instance of the DcOS class which is used to compute all interested parameters.
     private long nBeansInWeek; // how many beans we have in one week considering the chosen bean size.
@@ -37,9 +36,7 @@ public class VolatilitySeasonality {
      * @param timeOfBean is length (in milliseconds) of one bean
      */
     public VolatilitySeasonality(double threshold, long timeOfBean){
-        this.threshold = threshold;
         this.timeOfBean = timeOfBean;
-//        dcTimes = new ArrayList<>();
         dCoS = new DcOS(threshold, threshold, 1, threshold, threshold);
         nBeansInWeek = MLS_WEAK / timeOfBean;
         activityList = new double[(int) nBeansInWeek];
