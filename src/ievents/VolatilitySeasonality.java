@@ -41,6 +41,7 @@ public class VolatilitySeasonality {
         dCoS = new DcOS(threshold, threshold, 1, threshold, threshold);
         nBinsInWeek = MLS_WEAK / timeOfBin;
         activityList = new double[(int) nBinsInWeek];
+        dcCountList = new int[(int) nBinsInWeek];
     }
 
     /**
@@ -56,7 +57,8 @@ public class VolatilitySeasonality {
                 timeFirstDC = dcTime;
             }
             int binId = findBinId(dcTime);
-            activityList[binId] += dCoS.computeOSvariability();
+            activityList[binId] += dCoS.computeSqrtOsDeviation();
+            dcCountList[binId] += 1;
             timeLastDC = dcTime;
         }
     }
@@ -119,6 +121,14 @@ public class VolatilitySeasonality {
         for (int i = 0; i < activityList.length; i++){
             activityList[i] /= totalNumWeeks;
         }
+    }
+
+    public int[] getDcCountList(){
+        return dcCountList;
+    }
+
+    public double[] getActivityList(){
+        return activityList;
     }
 
 
