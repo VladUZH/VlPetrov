@@ -93,13 +93,13 @@ public class DcOS{
      * @return double variability of an overshoot.
      */
     public double computeSqrtOsDeviation(){
-        double osVariability;
+        double sqrtOsDeviation;
         if (mode == 1){
-            osVariability = Math.pow(computeOSsize() - thresholdUp, 2);
+            sqrtOsDeviation = Math.pow(computeOSsize() - thresholdUp, 2);
         } else {
-            osVariability = Math.pow(computeOSsize() - thresholdDown, 2);
+            sqrtOsDeviation = Math.pow(computeOSsize() - thresholdDown, 2);
         }
-        return osVariability;
+        return sqrtOsDeviation;
     }
 
     /**
