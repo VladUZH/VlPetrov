@@ -1,5 +1,7 @@
 package ievents; // stands for IntrinsicEvents
 
+import market.Price;
+
 /**
  * Created by author.
  * The class receives prices and returns +1 or -1 in case of Directional-
