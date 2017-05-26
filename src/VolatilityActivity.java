@@ -1,6 +1,9 @@
 import ievents.*;
+import market.Price;
+import market.SpreadInfo;
 import org.joda.time.DateTime;
 import org.joda.time.DateTimeZone;
+import tools.Tools;
 
 import java.io.BufferedReader;
 import java.io.FileReader;
