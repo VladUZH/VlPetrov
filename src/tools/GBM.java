@@ -5,7 +5,6 @@ import java.util.Random;
 /**
  * Created by author.
  * This class uses Geometrical Brownian Motion in order to generate a set of value with given number of elements.
- * The description of the used parameters can be seen above the first constructor.
  */
 public class GBM {
 
