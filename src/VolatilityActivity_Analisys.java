@@ -30,7 +30,7 @@ import java.util.Date;
  *
  */
 
-public class VolatilityActivity {
+public class VolatilityActivity_Analisys {
 
     private final float MIN_DELTA = 0.0001f; // min size of the intrinsic event threshold used for DCcountScalingLaw
     private final float MAX_DELTA = 0.10f; // max size of the intrinsic event threshold used for DCcountScalingLaw
@@ -64,7 +64,7 @@ public class VolatilityActivity {
      * @param bidIndex contains indexes of the price details in a list of the price information
      * @param timeIndex contains indexes of the price details in a list of the price information
      */
-    public VolatilityActivity(String inputFileName, String dateFormat, int nDecimals, long timeOfBean, int expectedNDCperBean, String delimiter, int askIndex, int bidIndex, int timeIndex){
+    public VolatilityActivity_Analisys(String inputFileName, String dateFormat, int nDecimals, long timeOfBean, int expectedNDCperBean, String delimiter, int askIndex, int bidIndex, int timeIndex){
         this.inputFileName = inputFileName;
         this.dateFormat = dateFormat;
         this.nDecimals = nDecimals;
