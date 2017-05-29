@@ -12,7 +12,7 @@ import org.joda.time.DateTimeConstants;
  * model for the daily and weekly seasonal volatility in the foreign exchange market", page 420, but it uses the
  * intrinsic event approach from ""Patterns in high-frequency FX data: Discovery of 12 empirical scaling laws" and
  * "Bridging the gap between physical and intrinsic time", equation 13. In other word, the computed volatility is based
- * on the sum of the overshoot variability variability of overshoots (OS).
+ * on the sum of the variability of overshoots (OS).
  *
  * The whole process consists of the following parts:
  *  1) to define the input parameters of the analysis, such like size of threshold and the length of one bin (for example, 10 min);
