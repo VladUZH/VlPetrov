@@ -117,5 +117,15 @@ public class IntrinsicNetwork {
         }
     }
 
+    public double getMinThreshold() {
+        return minThreshold;
+    }
 
+    public double getCoefOSsize() {
+        return coefOSsize;
+    }
+
+    public double getSurprise() {
+        return surprise;
+    }
 }
