@@ -2,6 +2,7 @@ package ievents;
 
 import market.Price;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 
 /**
@@ -19,7 +20,7 @@ public class IntrinsicNetwork {
     private DcOS[] dcOSes; // is array if DcOS instances which represents the mentioned network
     private double coefOSsize; // is an option to change set the size of the overshoot price move before a directional-change intrinsic event non equal to the size of base threshold
     private int[] modeList; // the state list holds current modes of the intrinsic event indicators. Only 1 or -1.
-    private double surprise; // is the level of surprise at each moment of time
+    private double latestSurprise; // is surprise of the latest observed transition of the intrinsic network
 
     /**
      *
@@ -35,30 +36,32 @@ public class IntrinsicNetwork {
         dcOSes = new DcOS[nThresholds];
         double threshold = minThreshold;
         for (int i = 0; i < nThresholds; i++){
-            int mode = i%2 == 0 ? 1 : -1;
+            int mode = (i%2 == 0 ? 1 : -1);
             dcOSes[i] = new DcOS(threshold, threshold, mode, threshold * coefOSsize, threshold * coefOSsize);
             modeList[i] = mode;
             threshold *= 2;
         }
-        surprise = 0;
+        latestSurprise = 0;
     }
 
     /**
-     * This method must be called at each new price
+     * This method must be called at each new price. One tick can trigger several intrinsic events, this is important
+     * to take into account. This why the method returns a list of surprises.
      * @param price is a new price
-     * @return current level of surprise
+     * @return a list of all surprise observed at the given tick
      */
-    public double run(Price price){
-        int[] tempModeList = new int[nThresholds];
+    public ArrayList<Double> run(Price price){
+        int[] tempModeList = modeList.clone();
+        ArrayList<Double> surpriseList = new ArrayList<>();
         for (int i = 0; i < nThresholds; i++){
-            dcOSes[i].run(price);
-            tempModeList[i] = dcOSes[i].getMode();
+            if (Math.abs(dcOSes[i].run(price)) == 1){
+                tempModeList[i] = dcOSes[i].getMode();
+                latestSurprise = computeSurprise(modeList, tempModeList);
+                modeList = tempModeList.clone();
+                surpriseList.add(latestSurprise);
+            }
         }
-        if (!Arrays.equals(tempModeList, modeList)){
-            surprise = computeSurprise(modeList, tempModeList);
-        }
-        modeList = tempModeList.clone();
-        return surprise;
+        return surpriseList;
     }
 
     /**
@@ -73,7 +76,7 @@ public class IntrinsicNetwork {
     }
 
     /**
-     * The method compute transition probability of the intrinsic network, equations 11-14
+     * The method compute transition probability of the intrinsic network, equations 3-6
      * @param oldModeList is a list of IE modes before changes
      * @param newModeList is a new list of the IE modes, after changes
      * @return transition probability
@@ -84,37 +87,39 @@ public class IntrinsicNetwork {
             indexUpdatedMode++;
         }
         int indexNonEqualFirst = 1;
-        while (newModeList[indexNonEqualFirst] == newModeList[0]){ // here we are trying to find an index of the first mode non equal to the first one
+        while (oldModeList[indexNonEqualFirst] == oldModeList[0]){ // here we are trying to find an index of the first mode non equal to the first one. We use oldModeList, and this is correct.
             indexNonEqualFirst++;
         }
-        if (indexNonEqualFirst == 1){
-            if (indexUpdatedMode > 0){
+        if (indexNonEqualFirst == 1){ // equations 3-4
+            if (indexUpdatedMode == 1){ // eq 3
                 return Math.exp(-(dcOSes[1].getThresholdUp() - dcOSes[0].getThresholdUp()) / dcOSes[0].getThresholdUp());
-            } else {
+            } else if (indexUpdatedMode == 0){ // eq 4
                 return (1.0 - Math.exp(-(dcOSes[1].getThresholdUp() - dcOSes[0].getThresholdUp()) / dcOSes[0].getThresholdUp()));
+            } else {
+                System.out.println("Should not happen!");
             }
-        } else if (indexNonEqualFirst > 1){
-            double numerator = 0.0;
+        } else if (indexNonEqualFirst > 1){ // equations 5-6
+            double numerator = 1.0;
             for (int i = 1; i <= indexNonEqualFirst; i++){
-                numerator -= (dcOSes[i].getThresholdUp() - dcOSes[i-1].getThresholdUp()) / dcOSes[i-1].getThresholdUp();
+                numerator *= Math.exp(-(dcOSes[i].getThresholdUp() - dcOSes[i-1].getThresholdUp()) / dcOSes[i-1].getThresholdUp());
             }
-            numerator = Math.exp(numerator);
             double denominator = 0.0;
             for (int i = 1; i <= indexNonEqualFirst - 1; i++){
-                double secondValue = 0.0;
-                for (int j  = i + 1; j <= indexNonEqualFirst; j++){
-                    secondValue -= (dcOSes[j].getThresholdUp() - dcOSes[j-1].getThresholdUp()) / dcOSes[j-1].getThresholdUp();
+                double denominatorMultip = 1.0;
+                for (int j = i + 1; j <= indexNonEqualFirst; j++){
+                    denominatorMultip *= Math.exp(-(dcOSes[j].getThresholdUp() - dcOSes[j-1].getThresholdUp()) / dcOSes[j-1].getThresholdUp());
                 }
-                denominator += (1.0 - Math.exp(-(dcOSes[i].getThresholdUp() - dcOSes[i-1].getThresholdUp()) / dcOSes[i-1].getThresholdUp())) * Math.exp(secondValue);
+                denominator += (1 - Math.exp(-(dcOSes[i].getThresholdUp() - dcOSes[i-1].getThresholdUp()) / dcOSes[i-1].getThresholdUp())) * denominatorMultip;
             }
-            if (indexUpdatedMode > 0){
+            if (indexUpdatedMode > 0){ // eq 5
                 return numerator / (1.0 - denominator);
-            } else {
+            } else { // eq 6
                 return (1.0 - numerator / (1.0 - denominator));
             }
         } else {
             return 1.0;
         }
+        return 1.0;
     }
 
     public double getMinThreshold() {
@@ -125,7 +130,7 @@ public class IntrinsicNetwork {
         return coefOSsize;
     }
 
-    public double getSurprise() {
-        return surprise;
+    public double getLatestSurprise() {
+        return latestSurprise;
     }
 }
