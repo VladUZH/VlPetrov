@@ -3,7 +3,6 @@ package ievents;
 import market.Price;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 
 /**
  * Created by author.
@@ -48,7 +47,7 @@ public class IntrinsicNetwork {
      * This method must be called at each new price. One tick can trigger several intrinsic events, this is important
      * to take into account. This why the method returns a list of surprises.
      * @param price is a new price
-     * @return a list of all surprise observed at the given tick
+     * @return a list of all surprises observed at the given tick
      */
     public ArrayList<Double> run(Price price){
         int[] tempModeList = modeList.clone();
