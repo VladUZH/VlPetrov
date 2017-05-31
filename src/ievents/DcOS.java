@@ -57,6 +57,12 @@ public class DcOS{
         }
     }
 
+    /**
+     * Uses log function in order to compute a price move
+     * @param aPrice is a new price
+     * @return +1 or -1 in case of Directional-Change (DC) Intrinsic Event (IE) upward or downward and also +2 or -2
+     * in case of an Overshoot (OS) IE upward or downward. Otherwise, returns 0;
+     */
     private int runRelative(Price aPrice){
         if (!initialized){
             initialized = true;
@@ -101,6 +107,12 @@ public class DcOS{
         return 0;
     }
 
+    /**
+     * Uses absolute values a price move
+     * @param aPrice is a new price
+     * @return +1 or -1 in case of Directional-Change (DC) Intrinsic Event (IE) upward or downward and also +2 or -2
+     * in case of an Overshoot (OS) IE upward or downward. Otherwise, returns 0;
+     */
     private int runAbsolute(Price aPrice){
         if (!initialized){
             initialized = true;
