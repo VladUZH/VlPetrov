@@ -46,7 +46,7 @@ public class DCcountScalingLaw {
         dcOses = new DcOS[numPoints];
         for (int i = 0; i < numPoints; i++){
             double delta = arrayDeltas[i];
-            dcOses[i] = new DcOS(delta, delta, 1, delta, delta);
+            dcOses[i] = new DcOS(delta, delta, 1, delta, delta, true);
         }
         numDCs = new double[numPoints];
         this.numPoints = numPoints;

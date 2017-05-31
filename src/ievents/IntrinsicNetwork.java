@@ -36,7 +36,7 @@ public class IntrinsicNetwork {
         double threshold = minThreshold;
         for (int i = 0; i < nThresholds; i++){
             int mode = (i%2 == 0 ? 1 : -1);
-            dcOSes[i] = new DcOS(threshold, threshold, mode, threshold * coefOSsize, threshold * coefOSsize);
+            dcOSes[i] = new DcOS(threshold, threshold, mode, threshold * coefOSsize, threshold * coefOSsize, true);
             modeList[i] = mode;
             threshold *= 2;
         }
