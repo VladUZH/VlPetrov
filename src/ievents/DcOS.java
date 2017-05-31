@@ -38,7 +38,7 @@ public class DcOS{
         this.relativeMoves = relativeMoves;
     }
 
-    public DcOS(double thresholdUp, double thresholdDown, int initialMode, double osSizeUp, double osSizeDown, Price initPrice){
+    public DcOS(double thresholdUp, double thresholdDown, int initialMode, double osSizeUp, double osSizeDown, Price initPrice, boolean relativeMoves){
         this.initialized = true;
         this.thresholdUp = thresholdUp;
         this.thresholdDown = thresholdDown;
