@@ -30,8 +30,7 @@ public class VolatilityEstimator {
     private double totalVolatility; // is the total volatility of the full time range
     private double yearlyVolatility; // is the normalized to one year volatility
 
-    public VolatilityEstimator(Long initialTime, Long periodLenMs){
-        this.initialTime = initialTime;
+    public VolatilityEstimator(Long periodLenMs){
         this.periodLenMs = periodLenMs;
         initiated = false;
         compReturnArray = new ArrayList<>();
@@ -45,6 +44,7 @@ public class VolatilityEstimator {
      */
     public void run(Price aPrice){
         if (!initiated){
+            initialTime = aPrice.getTime();
             closingPrice = aPrice;
             prevPrice = aPrice;
             initiated = true;
@@ -54,7 +54,7 @@ public class VolatilityEstimator {
             compReturnArray.add(compReturn);
             closingPrice = prevPrice;
             numPeriods++;
-            timeLag = periodLenMs * (numPeriods + 1);
+            timeLag += periodLenMs;
         } else {
             prevPrice = aPrice;
         }
