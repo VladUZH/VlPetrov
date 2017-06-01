@@ -40,8 +40,7 @@ public class BM {
      * @return - the next generated value;
      */
     public float generateNextValue(){
-        prevValue += (float) (mu * deltaT * nStep + sigma * Math.sqrt(deltaT) * rand.nextGaussian());
-        nStep++;
+        prevValue += (float) (mu * deltaT + sigma * Math.sqrt(deltaT) * rand.nextGaussian());
         return prevValue;
     }
 
