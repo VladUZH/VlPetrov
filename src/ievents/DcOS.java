@@ -27,6 +27,7 @@ public class DcOS{
     private long latestDCprice; // this is the price of the latest registered DC IE
     private long prevDCprice; // this is the price of the DC IE before the latest one
     private boolean relativeMoves; // shows if the algorithm should compute relative of absolute price changes
+    private double osL; // is length of the previous overshoot
 
     public DcOS(double thresholdUp, double thresholdDown, int initialMode, double osSizeUp, double osSizeDown, boolean relativeMoves){
         this.initialized = false;
@@ -77,6 +78,7 @@ public class DcOS{
                     }
                     return 0;
                 } else if (Math.log((double) aPrice.getBid() / extreme) >= thresholdUp){
+                    osL = -Math.log((double) extreme / latestDCprice);
                     prevDCprice = latestDCprice;
                     latestDCprice = aPrice.getBid();
                     prevExtreme = extreme;
@@ -94,6 +96,7 @@ public class DcOS{
                     }
                     return 0;
                 } else if (-Math.log((double) aPrice.getAsk() / extreme) >= thresholdDown){
+                    osL = Math.log((double) extreme / latestDCprice);
                     prevDCprice = latestDCprice;
                     latestDCprice = aPrice.getAsk();
                     prevExtreme = extreme;
@@ -127,6 +130,7 @@ public class DcOS{
                     }
                     return 0;
                 } else if (aPrice.getBid() - extreme >= thresholdUp){
+                    osL = -(extreme - latestDCprice);
                     prevDCprice = latestDCprice;
                     latestDCprice = aPrice.getBid();
                     prevExtreme = extreme;
@@ -144,6 +148,7 @@ public class DcOS{
                     }
                     return 0;
                 } else if (-(aPrice.getAsk() - extreme) >= thresholdDown){
+                    osL = (extreme - latestDCprice);
                     prevDCprice = latestDCprice;
                     latestDCprice = aPrice.getAsk();
                     prevExtreme = extreme;
@@ -165,20 +170,15 @@ public class DcOS{
     public double computeSqrtOsDeviation(){
         double sqrtOsDeviation;
         if (mode == 1){
-            sqrtOsDeviation = Math.pow(computeOSsize() - thresholdUp, 2);
+            sqrtOsDeviation = Math.pow(osL - thresholdUp, 2);
         } else {
-            sqrtOsDeviation = Math.pow(computeOSsize() - thresholdDown, 2);
+            sqrtOsDeviation = Math.pow(osL - thresholdDown, 2);
         }
         return sqrtOsDeviation;
     }
 
-    /**
-     * The function find the size of an overshoot, details in "Patterns in high-frequency FX data: Discovery of 12
-     * empirical scaling laws"
-     * @return size of OS, percentage
-     */
-    public double computeOSsize(){
-        return Math.abs(Math.log((double) latestDCprice / prevDCprice));
+    public double getOsL(){
+        return osL;
     }
 
     public long getLatestDCprice() {
