@@ -28,7 +28,7 @@ public class VolatilityEstimator {
     private long timeLag; // is the distance from the first time and the time of the Nth period
     private double localVolatility; // is the average volatility of the chosen period
     private double totalVolatility; // is the total volatility of the full time range
-    private double yearlyVolatility; // is the normalized to one year volatility
+    private double annualVolatility; // is the normalized to one year volatility
 
     public VolatilityEstimator(Long periodLenMs){
         this.periodLenMs = periodLenMs;
@@ -68,7 +68,7 @@ public class VolatilityEstimator {
         double sumSqrtDeviation = computeSumSqrtDeviation(compReturnArray, averageReturn);
         localVolatility = computeLocalVolatility(sumSqrtDeviation, numPeriods);
         totalVolatility = computeTotalVolatility(localVolatility, numPeriods);
-        yearlyVolatility = computeYearlyVolatility(localVolatility);
+        annualVolatility = computeYearlyVolatility(localVolatility);
     }
 
     /**
@@ -134,8 +134,8 @@ public class VolatilityEstimator {
         return totalVolatility;
     }
 
-    public double getYearlyVolatility(){
-        return yearlyVolatility;
+    public double getAnnualVolatility(){
+        return annualVolatility;
     }
 
     public long getNumPeriods() {
