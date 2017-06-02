@@ -34,6 +34,8 @@ public class DCcountScalingLaw {
     private int numPoints;
     private final long MLSEC_IN_YEAR = 31557600000L;
     private double[] scalingLawParam;
+    private long startTime, finalTime;
+    private boolean initialized;
 
     /**
      * The constructor of the class.
@@ -50,6 +52,7 @@ public class DCcountScalingLaw {
         }
         numDCs = new double[numPoints];
         this.numPoints = numPoints;
+        initialized = false;
     }
 
     /**
@@ -63,15 +66,18 @@ public class DCcountScalingLaw {
                 numDCs[i] += 1;
             }
         }
+        if (!initialized){
+            startTime = aPrice.getTime();
+            initialized = true;
+        }
+        finalTime = aPrice.getTime();
     }
 
     /**
      * The function normalizes the number of DCs be multiplying them by moralization coefficient equal to the number
      * of analyzed time intervals in a full year.
-     * @param startTime is the time in milliseconds of the first used price
-     * @param finalTime is the time in milliseconds of the lst used price
      */
-    public void normalize(long startTime, long finalTime){
+    public void normalize(){
         double normalCoeff = (double) MLSEC_IN_YEAR / (finalTime - startTime) ;
         for (int i = 0; i < numPoints; i++){
             numDCs[i] *= normalCoeff;
