@@ -117,7 +117,7 @@ public class DCcountScalingLaw {
      * @return
      */
     public double findBestThreshold(long timeInterval, int expectedNDCs){
-        return Math.pow(expectedNDCs * MLSEC_IN_YEAR / (double) timeInterval, (1.0 / scalingLawParam[1])) * scalingLawParam[0];
+        return Tools.findDCcountThreshold(timeInterval, expectedNDCs, scalingLawParam);
     }
 
     public double[] getNumDCs() {
