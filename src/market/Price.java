@@ -38,6 +38,7 @@ public class Price {
     public int getnDecimals() {
         return nDecimals;
     }
+
     public float getMid(){
         return (bid + ask) / 2.0f;
     }
@@ -56,6 +57,18 @@ public class Price {
 
     public long getSpread(){
         return ask - bid;
+    }
+
+    public float getFloatAsk(){
+        return (float) (ask * Math.pow(10, -nDecimals));
+    }
+
+    public float getFloatBid(){
+        return (float) (bid * Math.pow(10, -nDecimals));
+    }
+
+    public float getFloatMid(){
+        return (float) (getMid() * Math.pow(10, -nDecimals));
     }
 
 }
