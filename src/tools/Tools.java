@@ -211,6 +211,19 @@ public class Tools {
     }
 
 
+    /**
+     * This method can be called to compute the size of a threshold which in average returns expectedNDCs in the given
+     * timeInterval.
+     * IMPORTANT: scaling law parameters (scalingLawParam) must be normalized on one year.
+     * @param timeInterval is the size of the time interval, in milliseconds
+     * @param expectedNDCs is how many DC intrinsic event would you like to see within the given interval (in average)
+     * @param scalingLawParam is an array with at least two elements: [C, E, ...]
+     * @return the size of the threshold which in average returns expectedNDCs in the given timeInterval.
+     */
+    public static double findDCcountThreshold(long timeInterval, int expectedNDCs, double scalingLawParam[]){
+        return Math.pow(expectedNDCs * 31557600000L / (double) timeInterval, (1.0 / scalingLawParam[1])) * scalingLawParam[0];
+    }
+
 
 
 
