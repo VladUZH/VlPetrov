@@ -18,8 +18,8 @@ import java.util.LinkedList;
  */
 public class LiquidityIndicator {
 
-    private double minThreshold; // is the start threshold of the intrinsic network
-    private int nThresholds; // is how many thresholds are in the intrinsic network
+    private final double MIN_THRESHOLD = 0.00025; // is the starting threshold of the intrinsic network
+    private final int N_THRESHOLDS = 12; // is how many thresholds are in the intrinsic network
     private IntrinsicNetwork intrinsicNetwork; // an instance of the inttinsic network
     private long timeWindowMS; // is a length of a moving window used for the liquidity computation. In milliseconds
     private LinkedList<Transition> transitionList; // is a list of transitions observed at the latest price
@@ -31,15 +31,11 @@ public class LiquidityIndicator {
 
     /**
      *
-     * @param minThreshold is the start threshold of the intrinsic network
-     * @param nThresholds is how many thresholds are in the intrinsic network
      * @param timeWindowMS is a length of a moving window used for the liquidity computation. In milliseconds
      */
-    public LiquidityIndicator(double minThreshold, int nThresholds, long timeWindowMS){
-        this.minThreshold = minThreshold;
-        this.nThresholds = nThresholds;
+    public LiquidityIndicator(long timeWindowMS){
         this.timeWindowMS = timeWindowMS;
-        this.intrinsicNetwork = new IntrinsicNetwork(nThresholds, minThreshold, 1);
+        this.intrinsicNetwork = new IntrinsicNetwork(N_THRESHOLDS, MIN_THRESHOLD, 1);
         this.transitionList = new LinkedList<>();
         this.surprise = 0;
         this.liquidity = 0;
