@@ -6,9 +6,7 @@ import java.io.File;
 import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
-import java.util.Date;
-import java.util.Locale;
-import java.util.Random;
+import java.util.*;
 
 /**
  * Created by author.
@@ -224,6 +222,45 @@ public class Tools {
         return Math.pow(expectedNDCs * 31557600000L / (double) timeInterval, (1.0 / scalingLawParam[1])) * scalingLawParam[0];
     }
 
+
+    /**
+     * This methods returns median value of a List<Double>
+     * @param inputList is an input List<Double>
+     * @return median value of the list
+     */
+    private double findMedian(List<Double> inputList){
+        Collections.sort(inputList);
+        double median;
+        if (inputList.size() > 0){
+            if (inputList.size() % 2 == 0){
+                median = (inputList.get(inputList.size() / 2) + inputList.get(inputList.size() / 2 - 1))/2;
+            }
+            else {
+                median = inputList.get(inputList.size() / 2);
+            }
+        } else {
+            median = 0.0;
+        }
+        return median;
+    }
+
+    /**
+     * This method returns the average value of an input List<Double>
+     * @param inputList in an input List<Double>
+     * @return the average value
+     */
+    private double findAverage(List<Double> inputList){
+        int listLen = inputList.size();
+        if (listLen == 0){
+            return 0;
+        } else {
+            double sum = 0.0;
+            for (double value : inputList){
+                sum += value;
+            }
+            return sum / listLen;
+        }
+    }
 
 
 
