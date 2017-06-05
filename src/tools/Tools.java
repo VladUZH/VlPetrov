@@ -228,7 +228,7 @@ public class Tools {
      * @param inputList is an input List<Double>
      * @return median value of the list
      */
-    private double findMedian(List<Double> inputList){
+    public static double findMedian(List<Double> inputList){
         Collections.sort(inputList);
         double median;
         if (inputList.size() > 0){
@@ -249,7 +249,7 @@ public class Tools {
      * @param inputList in an input List<Double>
      * @return the average value
      */
-    private double findAverage(List<Double> inputList){
+    public static double findAverage(List<Double> inputList){
         int listLen = inputList.size();
         if (listLen == 0){
             return 0;
