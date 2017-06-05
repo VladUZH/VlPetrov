@@ -35,25 +35,21 @@ public class LiquidityIndicator_Analysis {
      * @param dateFormat format of a date in the analyzed file, for example "yyyy-MM-dd HH:mm:ss.SSS"
      * @param nDecimals is number of decimals of each price in the data set
      * @param timeWindowMS is a length of a moving window used for the liquidity computation. In milliseconds
-     * @param minThreshold is the start threshold of the intrinsic network
-     * @param nThresholds is how many thresholds are in the intrinsic network
      * @param delimiter is delimiter between data in a String from the analysed file
      * @param askIndex is an index of the mentioned information an a String row from the file
      * @param bidIndex is an index of the mentioned information an a String row from the file
      * @param timeIndex is an index of the mentioned information an a String row from the file
      */
-    public LiquidityIndicator_Analysis(String inputFileName, String dateFormat, int nDecimals, long timeWindowMS, double minThreshold, int nThresholds, String delimiter, int askIndex, int bidIndex, int timeIndex){
+    public LiquidityIndicator_Analysis(String inputFileName, String dateFormat, int nDecimals, long timeWindowMS, String delimiter, int askIndex, int bidIndex, int timeIndex){
         this.inputFileName = inputFileName;
         this.dateFormat = dateFormat;
         this.nDecimals = nDecimals;
         this.timeWindowMS = timeWindowMS;
-        this.minThreshold = minThreshold;
-        this.nThresholds = nThresholds;
         this.delimiter = delimiter;
         this.askIndex = askIndex;
         this.bidIndex = bidIndex;
         this.timeIndex = timeIndex;
-        liquidityIndicator = new LiquidityIndicator(minThreshold, nThresholds, timeWindowMS);
+        liquidityIndicator = new LiquidityIndicator(timeWindowMS);
     }
 
     /**
