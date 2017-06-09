@@ -14,7 +14,7 @@ import java.util.Date;
 /**
  * Created by author.
  *
- * This class is in essence a shell for the "VolatilitySeasonality". Here one can simply create an instance of the
+ * This class is in essence a shell for the "ievents/VolatilitySeasonality". Here one can simply create an instance of the
  * class and get a result output without any additional actions. The class automatically finds the best thresholds for
  * the volatility analysis.
  *
@@ -50,6 +50,8 @@ public class VolatilityActivity_Analisys {
     private SpreadInfo spreadInfo; // in instance of the SpreadInfo which shows detailed information about the spread of the fed data
     private double[] volActivity; // is array of the volatility activity. Basically, we are looking for this array)
     private int[] dcCountList; // each element of the array contains total number of DC IEs observed within a given time period (bin).
+    private String averagingType; // this important parameter can be either "median" or "average" and shows which method -
+    //- should the program use to compute the compute the final volatility using a list of value. "Average" may have huge picks, "Median" may have lost some information.
 
 
     /**
@@ -63,8 +65,9 @@ public class VolatilityActivity_Analisys {
      * @param askIndex contains indexes of the price details in a list of the price information
      * @param bidIndex contains indexes of the price details in a list of the price information
      * @param timeIndex contains indexes of the price details in a list of the price information
+     * @param averagingType either "median" or "average"
      */
-    public VolatilityActivity_Analisys(String inputFileName, String dateFormat, int nDecimals, long timeOfBean, int expectedNDCperBean, String delimiter, int askIndex, int bidIndex, int timeIndex){
+    public VolatilityActivity_Analisys(String inputFileName, String dateFormat, int nDecimals, long timeOfBean, int expectedNDCperBean, String delimiter, int askIndex, int bidIndex, int timeIndex, String averagingType){
         this.inputFileName = inputFileName;
         this.dateFormat = dateFormat;
         this.nDecimals = nDecimals;
@@ -75,6 +78,7 @@ public class VolatilityActivity_Analisys {
         this.bidIndex = bidIndex;
         this.timeIndex = timeIndex;
         this.spreadInfo = new SpreadInfo();
+        this.averagingType = averagingType;
         DateTimeZone.setDefault(DateTimeZone.UTC); // it is an important field: without this the algorithm will
         // interpret time like my local time. https://stackoverflow.com/questions/9397715/defaulting-date-time-zone-to-utc-for-jodatimes-datetime
 
@@ -85,7 +89,7 @@ public class VolatilityActivity_Analisys {
      */
     public void go(){
         bestThreshold = findBestThreshold();
-        computeVolatilitySeasonality(bestThreshold, timeOfBean);
+        computeVolatilitySeasonality(bestThreshold, timeOfBean, averagingType);
         System.out.println("VolatilityActivity: DONE");
     }
 
@@ -99,7 +103,7 @@ public class VolatilityActivity_Analisys {
         dCcountScalingLaw = new DCcountScalingLaw(MIN_DELTA, MAX_DELTA, NUM_DELTAS);
         try {
             BufferedReader bufferedReader = new BufferedReader(new FileReader(inputFileName));
-            bufferedReader.readLine().split(",").clone();
+            bufferedReader.readLine().split(delimiter).clone();
             String priceLine;
             long i = 0L;
             while ((priceLine = bufferedReader.readLine()) != null) {
@@ -115,7 +119,7 @@ public class VolatilityActivity_Analisys {
                 timeLastPrice = aPrice.getTime();
                 i++;
             }
-            dCcountScalingLaw.normalize(timeFirstPrice, timeLastPrice);
+            dCcountScalingLaw.normalize();
             dCcountScalingLaw.saveResults("Results");
             spreadInfo.finish();
             double[] params = dCcountScalingLaw.computeParams();
@@ -135,11 +139,11 @@ public class VolatilityActivity_Analisys {
      * @param threshold is the size of the optimal threshold used as an input of the VolatilitySeasonality instance
      * @param timeOfBean is the length of a bin in milliseconds
      */
-    private void computeVolatilitySeasonality(double threshold, long timeOfBean){
-        VolatilitySeasonality volatilitySeasonality = new VolatilitySeasonality(threshold, timeOfBean);
+    private void computeVolatilitySeasonality(double threshold, long timeOfBean, String averagingType){
+        VolatilitySeasonality volatilitySeasonality = new VolatilitySeasonality(threshold, timeOfBean, averagingType);
         try {
             BufferedReader bufferedReader = new BufferedReader(new FileReader(inputFileName));
-            bufferedReader.readLine().split(",").clone();
+            bufferedReader.readLine();
             String priceLine;
             long i = 0L;
             while ((priceLine = bufferedReader.readLine()) != null) {
@@ -177,7 +181,7 @@ public class VolatilityActivity_Analisys {
         Tools.CheckDirectory(dirName);
         try {
             String dateString = new SimpleDateFormat("yyyy-MM-dd_hh-mm-ss").format(new Date());
-            String fileName = "volatActivity_" + name + "_" + String.format("%.5f", bestThreshold) + "_" + dateString + ".csv";
+            String fileName = "volatActivity_" + name + "_" + String.format("%.5f", bestThreshold) + "_" + dateString + "_" + averagingType + ".csv";
             PrintWriter writer = new PrintWriter(dirName + "/" + fileName, "UTF-8");
             if (simpleFormat){
                 for (double activity : volActivity){
