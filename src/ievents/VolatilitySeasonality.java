@@ -3,6 +3,10 @@ package ievents;
 import market.*;
 import org.joda.time.DateTime;
 import org.joda.time.DateTimeConstants;
+import tools.Tools;
+
+import java.util.ArrayList;
+import java.util.List;
 
 
 /**
@@ -23,26 +27,37 @@ import org.joda.time.DateTimeConstants;
  */
 public class VolatilitySeasonality {
 
-    private static final long MLS_WEAK = 604800000; // number of milliseconds in a week
+    private static final long MLS_WEAK = 604800000L; // number of milliseconds in a week
+    private static final long MLS_YEAR = 31536000000L; // number of milliseconds in a year
     private long timeOfBin; // defines the length (in milliseconds) of one bin
     private DcOS dCoS; // an instance of the DcOS class which is used to compute all interested parameters.
     private long nBinsInWeek; // how many bins we have in one week considering the chosen bin size.
     private double[] activityList; // here we will store activity data for every bin.
+    private List<List<Double>>  activityArrayList;
     private long timeFirstDC; // holds time of the first registered DC; will be used in the "computeTotalNumBins"
     private long timeLastDC; // holds time of the last registered DC; will be used in the "computeTotalNumBins"
     private int[] dcCountList; // here we shall store total number of DC IEs at each bin
+    private int previousBinId;
+    private double sumSqrtOsDeviation;
+    private String averagingType;
 
     /**
      *
      * @param threshold is size of the threshold used to find the number of DC and the variability of overshoots
      * @param timeOfBin is length (in milliseconds) of one bin
+     * @param averagingType is an option to chose "median" or "average" computation of volatility of each bin. Just put
+     *                   "median" or "average"
      */
-    public VolatilitySeasonality(double threshold, long timeOfBin){
+    public VolatilitySeasonality(double threshold, long timeOfBin, String averagingType){
         this.timeOfBin = timeOfBin;
-        dCoS = new DcOS(threshold, threshold, 1, threshold, threshold);
+        this.averagingType = averagingType;
+        dCoS = new DcOS(threshold, threshold, 1, threshold, threshold, true);
         nBinsInWeek = MLS_WEAK / timeOfBin;
         activityList = new double[(int) nBinsInWeek];
         dcCountList = new int[(int) nBinsInWeek];
+        activityArrayList = new ArrayList<List<Double>>((int) nBinsInWeek);
+        initializeListOfList(activityArrayList, (int) nBinsInWeek);
+        sumSqrtOsDeviation = 0.0;
     }
 
     /**
@@ -56,9 +71,16 @@ public class VolatilitySeasonality {
             long dcTime = aPrice.getTime();
             if (timeFirstDC == 0){
                 timeFirstDC = dcTime;
+                previousBinId = findBinId(dcTime);
             }
             int binId = findBinId(dcTime);
-            activityList[binId] += dCoS.computeSqrtOsDeviation();
+            if (binId == previousBinId){
+                sumSqrtOsDeviation += dCoS.computeSqrtOsDeviation();
+            } else {
+                activityArrayList.get(previousBinId).add(sumSqrtOsDeviation);
+                previousBinId = binId;
+                sumSqrtOsDeviation = dCoS.computeSqrtOsDeviation();
+            }
             dcCountList[binId] += 1;
             timeLastDC = dcTime;
         }
@@ -85,17 +107,13 @@ public class VolatilitySeasonality {
      * @return activity distribution array
      */
     public double[] finish(){
-        averageActivity();
+        if (averagingType.equals("median")){
+            medianActivity();
+        } else if (averagingType.equals("average")){
+            averageActivity();
+        }
         normalizeActivity();
         return activityList;
-    }
-
-    /**
-     *
-     * @return the total number of bins between the first and the last times of the registered DC IEs.
-     */
-    private double computeTotalNumWeeks(){
-        return (double)(timeLastDC - timeFirstDC) / MLS_WEAK;
     }
 
 
@@ -103,13 +121,9 @@ public class VolatilitySeasonality {
      * The function normalizes the activity distribution in order to have the mean value of it equal to 1.0
      */
     private void normalizeActivity(){
-        double sumActivity = 0;
-        for (double aActivity : activityList){
-            sumActivity += aActivity;
-        }
-        double coef = activityList.length / sumActivity;
+        double coef = (double) MLS_YEAR / timeOfBin;
         for (int i = 0; i < activityList.length; i++){
-            activityList[i] = activityList[i] * coef;
+            activityList[i] = Math.sqrt(activityList[i] * coef);
         }
     }
 
@@ -118,9 +132,17 @@ public class VolatilitySeasonality {
      * to find the average activity of each bin.
      */
     private void averageActivity(){
-        double totalNumWeeks = computeTotalNumWeeks();
         for (int i = 0; i < activityList.length; i++){
-            activityList[i] /= totalNumWeeks;
+            activityList[i] = Tools.findAverage(activityArrayList.get(i));
+        }
+    }
+
+    /**
+     * The method finds median values of the volatility sets
+     */
+    private void medianActivity(){
+        for (int i = 0; i < activityList.length; i++){
+            activityList[i] = Tools.findMedian(activityArrayList.get(i));
         }
     }
 
@@ -132,6 +154,16 @@ public class VolatilitySeasonality {
         return activityList;
     }
 
+    /**
+     * This auxiliary function only initializes a List<List<Double>> adding empty lists
+     * @param originalList
+     * @param length
+     */
+    private void initializeListOfList(List<List<Double>> originalList, int length){
+        for (int i = 0; i < length; i++){
+            originalList.add(new ArrayList<Double>());
+        }
+    }
 
 
 
