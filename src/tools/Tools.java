@@ -1,6 +1,8 @@
 package tools;
 
 import market.Price;
+import org.joda.time.DateTime;
+import org.joda.time.DateTimeConstants;
 
 import java.io.File;
 import java.text.DateFormat;
@@ -13,6 +15,8 @@ import java.util.*;
  * The class Tools holds a set of auxiliary functions which can be used in order to simplify work on the general ideas.
  */
 public class Tools {
+
+    private static long MLS_WEAK = 604800000L;
 
     /**
      * The function checks if the certain directory exists and create it if it does not.
@@ -260,6 +264,24 @@ public class Tools {
             }
             return sum / listLen;
         }
+    }
+
+
+    /**
+     * This method compute the index of a bin in a week in which the given time occurs.
+     * @param time is the time in milliseconds
+     * @param lenBin is the length of each bin in milliseconds
+     * @return index (Id) ot the correspondent bin.
+     */
+    public static int findBinId(long time, long lenBin){
+        DateTime dcDateTime = new DateTime(time);
+        long mondayBeforeTime = dcDateTime.withDayOfWeek(DateTimeConstants.MONDAY).withTimeAtStartOfDay().getMillis();
+        long millsFromMonday = time - mondayBeforeTime - 1;
+        if (millsFromMonday > MLS_WEAK){
+            System.out.println("ATTENTION! Winter time");
+            millsFromMonday -= 3600000;
+        }
+        return (int)(millsFromMonday / lenBin);
     }
 
 
