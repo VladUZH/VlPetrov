@@ -14,7 +14,7 @@ import java.util.Date;
 /**
  * Created by author.
  *
- * This class is in essence a shell for the "ievents/VolatilitySeasonality". Here one can simply create an instance of the
+ * This class is in essence a shell for the "ievents/InstantaneousVolatilitySeasonality". Here one can simply create an instance of the
  * class and get a result output without any additional actions. The class automatically finds the best thresholds for
  * the volatility analysis.
  *
@@ -30,7 +30,7 @@ import java.util.Date;
  *
  */
 
-public class VolatilityActivity_Analisys {
+public class InstantaneousVolatilityActivity_Analisys {
 
     private final float MIN_DELTA = 0.0001f; // min size of the intrinsic event threshold used for DCcountScalingLaw
     private final float MAX_DELTA = 0.10f; // max size of the intrinsic event threshold used for DCcountScalingLaw
@@ -67,7 +67,7 @@ public class VolatilityActivity_Analisys {
      * @param timeIndex contains indexes of the price details in a list of the price information
      * @param averagingType either "median" or "average"
      */
-    public VolatilityActivity_Analisys(String inputFileName, String dateFormat, int nDecimals, long timeOfBean, int expectedNDCperBean, String delimiter, int askIndex, int bidIndex, int timeIndex, String averagingType){
+    public InstantaneousVolatilityActivity_Analisys(String inputFileName, String dateFormat, int nDecimals, long timeOfBean, int expectedNDCperBean, String delimiter, int askIndex, int bidIndex, int timeIndex, String averagingType){
         this.inputFileName = inputFileName;
         this.dateFormat = dateFormat;
         this.nDecimals = nDecimals;
@@ -136,11 +136,11 @@ public class VolatilityActivity_Analisys {
 
     /**
      * The method compute the desired volatility distribution and saves it in an array.
-     * @param threshold is the size of the optimal threshold used as an input of the VolatilitySeasonality instance
+     * @param threshold is the size of the optimal threshold used as an input of the InstantaneousVolatilitySeasonality instance
      * @param timeOfBean is the length of a bin in milliseconds
      */
     private void computeVolatilitySeasonality(double threshold, long timeOfBean, String averagingType){
-        VolatilitySeasonality volatilitySeasonality = new VolatilitySeasonality(threshold, timeOfBean, averagingType);
+        InstantaneousVolatilitySeasonality instantaneousVolatilitySeasonality = new InstantaneousVolatilitySeasonality(threshold, timeOfBean, averagingType);
         try {
             BufferedReader bufferedReader = new BufferedReader(new FileReader(inputFileName));
             bufferedReader.readLine();
@@ -148,14 +148,14 @@ public class VolatilityActivity_Analisys {
             long i = 0L;
             while ((priceLine = bufferedReader.readLine()) != null) {
                 Price aPrice = Tools.priceLineToPrice(priceLine, delimiter, nDecimals, dateFormat, askIndex, bidIndex, timeIndex);
-                volatilitySeasonality.run(aPrice);
+                instantaneousVolatilitySeasonality.run(aPrice);
                 if (i % SHOW_EVERY == 0) {
                     System.out.println(new DateTime(aPrice.getTime()));
                 }
                 i++;
             }
-            volActivity = volatilitySeasonality.finish();
-            dcCountList = volatilitySeasonality.getDcCountList();
+            volActivity = instantaneousVolatilitySeasonality.finish();
+            dcCountList = instantaneousVolatilitySeasonality.getDcCountList();
         } catch (Exception ex){
             ex.printStackTrace();
         }
