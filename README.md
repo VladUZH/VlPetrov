@@ -7,7 +7,7 @@ The majority of the tools equipped by comprehensive explanations and several exa
 
 <ul>
 <li><strong>LiquidityIndicator_Analysis.java</strong> - computes liquidity of a real time series. It is a simple shell for the LiquidityIndicator class from the ievent package. It just needs a path to a file and several parameters.</li>
-<li><strong>VolatilityActivity_Analisys.java</strong> - this class is in essence a practical implementation of the "ievents/VolatilitySeasonality".</li>
+<li><strong>InstantaneousVolatilityActivity_Analisys.java</strong> - this class is in essence a practical implementation of the "ievents/VolatilitySeasonality".</li>
 <li><strong>VolatilityEstimatorMovingWindow_Analysis.java</strong> - this class can be used to perform a complete analysis of a given price set</li>
 </ul>
 
