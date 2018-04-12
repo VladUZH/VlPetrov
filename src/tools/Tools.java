@@ -270,10 +270,10 @@ public class Tools {
     /**
      * This method compute the index of a bin in a week in which the given time occurs.
      * @param time is the time in milliseconds
-     * @param lenBin is the length of each bin in milliseconds
-     * @return index (Id) ot the correspondent bin.
+     * @param stampsBins is list of all timestamps labeling all bins of a week.
+     * @return index (Id) of the correspondent bin.
      */
-    public static int findBinId(long time, long lenBin){
+    public static int findBinId(long time, long[] stampsBins){
         DateTime dcDateTime = new DateTime(time);
         long mondayBeforeTime = dcDateTime.withDayOfWeek(DateTimeConstants.MONDAY).withTimeAtStartOfDay().getMillis();
         long millsFromMonday = time - mondayBeforeTime - 1;
@@ -281,8 +281,13 @@ public class Tools {
             System.out.println("ATTENTION! Winter time");
             millsFromMonday -= 3600000;
         }
-        return (int)(millsFromMonday / lenBin);
+        int id = 0;
+        while (stampsBins[id] < millsFromMonday){ // TODO: implement searching by division by 2
+            id += 1;
+        }
+        return id;
     }
+
 
 
 
