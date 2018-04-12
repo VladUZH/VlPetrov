@@ -3,28 +3,25 @@ package ievents;
 import market.*;
 import org.joda.time.DateTime;
 import org.joda.time.DateTimeConstants;
-import tools.Tools;
 
-import java.util.ArrayList;
-import java.util.List;
+import static tools.Tools.findBinId;
 
 
 /**
- * Created by author.
- *
- * This class should do the following: compute weekly volatility distribution similar to the one computed in "A geographical
- * model for the daily and weekly seasonal volatility in the foreign exchange market", page 420, but it uses the
- * intrinsic event approach from ""Patterns in high-frequency FX data: Discovery of 12 empirical scaling laws" and
- * "Bridging the gap between physical and intrinsic time", equation 13. In other word, the computed volatility is based
- * on the sum of the variability of overshoots (OS).
+ * This class should do the following: compute weekly volatility seasonality similar to the one computed in Dacorogna
+ * et. al. "A geographical model for the daily and weekly seasonal volatility in the foreign exchange market", page 420,
+ * but it uses the number of directional-change intrinsic events as the indicator of the realized volatility (see "Waiting
+ * Times and Number of Directional Changes in an Intrinsic Time Framework" (in progress) paper).
  *
  * The whole process consists of the following parts:
- *  1) to define the input parameters of the analysis, such like size of threshold and the length of one bin (for example, 10 min);
- *  2) to find sum of the variability of overshoots for each bin of a week;
- *  3) to compute average value of the previous step
- *  4) to normalize the final value in such a way that the mean activity is equal to 1.0
- *  5) profit
+ *  1) define the input parameters of the analysis, such like size of threshold and the length of one bin (for example, 10 min);
+ *  2) find number of directional changes for each bin of a week;
+ *  3) compute average or median value of the previous step;
+ *  4) compute volatility as \sigma = \delta \sqrt( N_{DC} / T ) where delta is the size of used threshold, N_{DC} is the
+ *  number of DC events per given bin and T is the length in time of each bin;
+ *  5) profit.
  */
+
 public class VolatilitySeasonality {
 
     private static final long MLS_WEAK = 604800000L; // number of milliseconds in a week
@@ -33,138 +30,70 @@ public class VolatilitySeasonality {
     private DcOS dCoS; // an instance of the DcOS class which is used to compute all interested parameters.
     private long nBinsInWeek; // how many bins we have in one week considering the chosen bin size.
     private double[] activityList; // here we will store activity data for every bin.
-    private List<List<Double>>  activityArrayList;
-    private long timeFirstDC; // holds time of the first registered DC; will be used in the "computeTotalNumBins"
-    private long timeLastDC; // holds time of the last registered DC; will be used in the "computeTotalNumBins"
-    private int[] dcCountList; // here we shall store total number of DC IEs at each bin
-    private int previousBinId;
-    private double sumSqrtOsDeviation;
-    private String averagingType;
+    private double[] dcCountList; // here we shall store total number of DC IEs at each bin
+    private long dateFirstTick, dateLastTick; // the date in milliseconds of the first and the last tick in the sample
+    private double threshold;
+    private boolean firstTick;
 
     /**
-     *
      * @param threshold is size of the threshold used to find the number of DC and the variability of overshoots
      * @param timeOfBin is length (in milliseconds) of one bin
-     * @param averagingType is an option to chose "median" or "average" computation of volatility of each bin. Just put
-     *                   "median" or "average"
      */
-    public VolatilitySeasonality(double threshold, long timeOfBin, String averagingType){
+    public VolatilitySeasonality(double threshold, long timeOfBin){
+        this.threshold = threshold;
         this.timeOfBin = timeOfBin;
-        this.averagingType = averagingType;
         dCoS = new DcOS(threshold, threshold, 1, threshold, threshold, true);
         nBinsInWeek = MLS_WEAK / timeOfBin;
         activityList = new double[(int) nBinsInWeek];
-        dcCountList = new int[(int) nBinsInWeek];
-        activityArrayList = new ArrayList<List<Double>>((int) nBinsInWeek);
-        initializeListOfList(activityArrayList, (int) nBinsInWeek);
-        sumSqrtOsDeviation = 0.0;
+        dcCountList = new double[(int) nBinsInWeek];
+        firstTick = true;
     }
 
     /**
      * This method should be called for every new price. It checks whether the algo finds a new DC IE at the given
-     * price or not and saves variability of overshoots to a preliminary array of data.
+     * price or not and adds +1 to the number of DC in the proper bin.
      * @param aPrice is every new price.
      */
     public void run(Price aPrice){
+        if (firstTick){
+            dateFirstTick = aPrice.getTime();
+            firstTick = false;
+        } else {
+            dateLastTick = aPrice.getTime();
+        }
         int iEvent = dCoS.run(aPrice);
         if (iEvent == 1 || iEvent == -1){
             long dcTime = aPrice.getTime();
-            if (timeFirstDC == 0){
-                timeFirstDC = dcTime;
-                previousBinId = findBinId(dcTime);
-            }
-            int binId = findBinId(dcTime);
-            if (binId == previousBinId){
-                sumSqrtOsDeviation += dCoS.computeSqrtOsDeviation();
-            } else {
-                activityArrayList.get(previousBinId).add(sumSqrtOsDeviation);
-                previousBinId = binId;
-                sumSqrtOsDeviation = dCoS.computeSqrtOsDeviation();
-            }
+            int binId = findBinId(dcTime, timeOfBin);
             dcCountList[binId] += 1;
-            timeLastDC = dcTime;
         }
     }
 
-    /**
-     * This method compute the index of a bin in which the DC IE occurs.
-     * @param dcTime is the time of the observed DC IE.
-     * @return index (Id) ot the correspondent bin.
-     */
-    private int findBinId(long dcTime){
-        DateTime dcDateTime = new DateTime(dcTime);
-        long mondayBeforeTime = dcDateTime.withDayOfWeek(DateTimeConstants.MONDAY).withTimeAtStartOfDay().getMillis();
-        long millsFromMonday = dcTime - mondayBeforeTime - 1;
-        if (millsFromMonday > MLS_WEAK){
-            System.out.println("ATTENTION! Winter time");
-            millsFromMonday -= 3600000;
-        }
-        return (int)(millsFromMonday / timeOfBin);
-    }
+
 
     /**
-     * The finish function averages, normalizes to 1.0 and returns the all values in the activityList
+     * The method translates array of the numbers of intrinsic events into the volatility seasonality array and
+     * returns it. Should be called in the end of the experiment.
      * @return activity distribution array
      */
     public double[] finish(){
-        if (averagingType.equals("median")){
-            medianActivity();
-        } else if (averagingType.equals("average")){
-            averageActivity();
-        }
-        normalizeActivity();
-        return activityList;
-    }
-
-
-    /**
-     * The function normalizes the activity distribution in order to have the mean value of it equal to 1.0
-     */
-    private void normalizeActivity(){
-        double coef = (double) MLS_YEAR / timeOfBin;
-        for (int i = 0; i < activityList.length; i++){
-            activityList[i] = Math.sqrt(activityList[i] * coef);
-        }
-    }
-
-    /**
-     * The function simply divides all values in the activityList by the total number of full periods (weeks) in order
-     * to find the average activity of each bin.
-     */
-    private void averageActivity(){
-        for (int i = 0; i < activityList.length; i++){
-            activityList[i] = Tools.findAverage(activityArrayList.get(i));
-        }
-    }
-
-    /**
-     * The method finds median values of the volatility sets
-     */
-    private void medianActivity(){
-        for (int i = 0; i < activityList.length; i++){
-            activityList[i] = Tools.findMedian(activityArrayList.get(i));
-        }
-    }
-
-    public int[] getDcCountList(){
-        return dcCountList;
-    }
-
-    public double[] getActivityList(){
+        numDCtoVolatility();
         return activityList;
     }
 
     /**
-     * This auxiliary function only initializes a List<List<Double>> adding empty lists
-     * @param originalList
-     * @param length
+     * Computes volatility seasonality array using the formula \sigma = \delta \sqrt( N_{DC} / T )
      */
-    private void initializeListOfList(List<List<Double>> originalList, int length){
-        for (int i = 0; i < length; i++){
-            originalList.add(new ArrayList<Double>());
+    private void numDCtoVolatility(){
+        double numWeeksInWholeSample = (double) (dateLastTick - dateFirstTick) / MLS_WEAK;
+        for (int i = 0; i < dcCountList.length; i++){
+            dcCountList[i] /= numWeeksInWholeSample; // find average num events per given bin // TODO: add median option
+        }
+        double numYearsInBin = (double) timeOfBin / MLS_YEAR;
+        for (int i = 0; i < activityList.length; i++){
+            activityList[i] = threshold * Math.sqrt((dcCountList[i]) / numYearsInBin) ;
         }
     }
-
 
 
 
