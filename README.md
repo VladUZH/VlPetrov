@@ -41,6 +41,7 @@ The majority of the tools equipped by comprehensive explanations and several exa
 <li><strong>MovingWindowVolatilityEstimator.java</strong> - this class is an example of the classical volatility estimator based on the squared returns which could be used to run on the real data in real time</li>
 <li><strong>Tools.java</strong> - holds a set of auxiliary functions which can be used in order to simplify work on the general ideas. The class is crucial for the stable work of almost all functions</li>
 <li><strong>VolatilityEstimator.java</strong> - this class is traditional volatility estimator. Computes volatility of a given time series</li>
+<li><strong>ThetaTime.java</strong> - realizes the concept of theta time described in the work of Docorogna et. al. 1993 "A geographical model for the daily and weekly seasonal volatility in the foreign exchange market".</li>
 </ul>
 
 <em>The project leading to this application has received funding from the European Union’s Horizon 2020 research and innovation programme under the Marie Skłodowska-Curie grant agreement No 675044</em>
