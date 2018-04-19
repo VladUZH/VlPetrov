@@ -20,7 +20,7 @@ import static tools.Tools.findBinId;
  *  5) profit.
  */
 
-public class VolatilitySeasonality {
+public class InstantaneousVolatilitySeasonality {
 
     private static final long MLS_WEAK = 604800000L; // number of milliseconds in a week
     private static final long MLS_YEAR = 31536000000L; // number of milliseconds in a year
@@ -38,7 +38,7 @@ public class VolatilitySeasonality {
      * @param threshold is size of the threshold used to find the number of DC and the variability of overshoots
      * @param lenOfBin is length (in milliseconds) of one bin
      */
-    public VolatilitySeasonality(double threshold, long lenOfBin){
+    public InstantaneousVolatilitySeasonality(double threshold, long lenOfBin){
         this.threshold = threshold;
         this.lenOfBin = lenOfBin;
         dCoS = new DcOS(threshold, threshold, 1, threshold, threshold, true);
