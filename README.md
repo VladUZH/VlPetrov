@@ -23,7 +23,7 @@ The majority of the tools equipped by comprehensive explanations and several exa
 <li><strong>MovingWindowVolatilityEstimator.java</strong> - is a volatility estimator basen on the novel approach of the Directional Change Intrinsic Time</li>
 <li><strong>OSmoveScalingLaw.java</strong> - this class builds the "Overshoot scaling law", Law 9 from the "Patterns in high-frequency FX data: Discovery of 12 empirical scaling laws"</li>
 <li><strong>VolatilityEstimator.java</strong> - is practical realization of the theoretical work presented in the working paper "Bridging the gap between physical and intrinsic time"</li>
-<li><strong>VolatilitySeasonality.java</strong> - the class contains methods able to compute volatility seasonality based on the number of directional chnage intrinsic events</li>
+<li><strong>InatantaneousVolatilitySeasonality.java</strong> - the class contains methods able to compute volatility seasonality based on the number of directional change intrinsic events</li>
 </ul>
 
 <h3>Folder <em>market</em> contains:</h3>
