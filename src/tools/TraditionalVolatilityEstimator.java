@@ -15,7 +15,7 @@ import java.util.ArrayList;
  * Note, that the case when a price does not move within several time intervals has bot been considered. It is actually
  * a drawback of traditional volatility estimators.
  */
-public class VolatilityEstimator {
+public class TraditionalVolatilityEstimator {
 
     private final long MLSEC_IN_YEAR = 31557600000L; // number milliseconds in a year
     private long periodLenMs; // time length of a period used to compute returns
@@ -30,7 +30,7 @@ public class VolatilityEstimator {
     private double totalVolatility; // is the total volatility of the full time range
     private double annualVolatility; // is the normalized to one year volatility
 
-    public VolatilityEstimator(Long periodLenMs){
+    public TraditionalVolatilityEstimator(Long periodLenMs){
         this.periodLenMs = periodLenMs;
         initiated = false;
         compReturnArray = new ArrayList<>();

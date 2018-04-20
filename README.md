@@ -40,7 +40,7 @@ The majority of the tools equipped by comprehensive explanations and several exa
 <li><strong>GBM.java</strong> - this class uses Geometrical Brownian Motion in order to generate a set of value with given number of elements.</li>
 <li><strong>MovingWindowVolatilityEstimator.java</strong> - this class is an example of the classical volatility estimator based on the squared returns which could be used to run on the real data in real time</li>
 <li><strong>Tools.java</strong> - holds a set of auxiliary functions which can be used in order to simplify work on the general ideas. The class is crucial for the stable work of almost all functions</li>
-<li><strong>VolatilityEstimator.java</strong> - this class is traditional volatility estimator. Computes volatility of a given time series</li>
+<li><strong>TraditionalVolatilityEstimator.java</strong> - this class is traditional volatility estimator. Computes volatility of a given time series using squared returns</li>
 <li><strong>ThetaTime.java</strong> - realizes the concept of theta time described in the work of Docorogna et. al. 1993 "A geographical model for the daily and weekly seasonal volatility in the foreign exchange market".</li>
 </ul>
 
