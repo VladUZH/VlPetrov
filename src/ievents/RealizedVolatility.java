@@ -5,13 +5,13 @@ import market.Price;
 /**
  * Created by author.
  *
- * The class VolatilityEstimator is a practical realization of the theoretical work presented in the working paper
+ * The class RealizedVolatility is a practical realization of the theoretical work presented in the working paper
  * "Bridging the gap between physical and intrinsic time". This Intrinsic Event volatility Estimator is based on the
  * eq. 13. The right hand side of the equation is used to compute squared returns. It is the only crucial component of
  * traditional volatility estimators.
  */
 
-public class VolatilityEstimator {
+public class RealizedVolatility {
 
     private double totalVolatility;
     private double normalizedVolatility;
@@ -21,7 +21,7 @@ public class VolatilityEstimator {
     private final long MLSEC_IN_YEAR = 31536000000L;
 
 
-    public VolatilityEstimator(double threshold){
+    public RealizedVolatility(double threshold){
         timeFirstPrice = timeLastPrice = 0L;
         dcOS = new DcOS(threshold, threshold, -1, threshold, threshold, true);
     }

@@ -22,7 +22,7 @@ The majority of the tools equipped by comprehensive explanations and several exa
 <li><strong>LiquidityIndicator.java</strong> - is a realization of the "Multi-scale Representation of High Frequency Market Liquidity" paper working on real data</li>
 <li><strong>MovingWindowVolatilityEstimator.java</strong> - is a volatility estimator basen on the novel approach of the Directional Change Intrinsic Time</li>
 <li><strong>OSmoveScalingLaw.java</strong> - this class builds the "Overshoot scaling law", Law 9 from the "Patterns in high-frequency FX data: Discovery of 12 empirical scaling laws"</li>
-<li><strong>VolatilityEstimator.java</strong> - is practical realization of the theoretical work presented in the working paper "Bridging the gap between physical and intrinsic time"</li>
+<li><strong>RealizedVolatility.java</strong> - is practical realization of the theoretical work presented in the working paper "Bridging the gap between physical and intrinsic time" (volatility, computed using overshoot variability)</li>
 <li><strong>InatantaneousVolatilitySeasonality.java</strong> - the class contains methods able to compute volatility seasonality based on the number of directional change intrinsic events</li>
 </ul>
 
@@ -40,7 +40,7 @@ The majority of the tools equipped by comprehensive explanations and several exa
 <li><strong>GBM.java</strong> - this class uses Geometrical Brownian Motion in order to generate a set of value with given number of elements.</li>
 <li><strong>MovingWindowVolatilityEstimator.java</strong> - this class is an example of the classical volatility estimator based on the squared returns which could be used to run on the real data in real time</li>
 <li><strong>Tools.java</strong> - holds a set of auxiliary functions which can be used in order to simplify work on the general ideas. The class is crucial for the stable work of almost all functions</li>
-<li><strong>TraditionalVolatilityEstimator.java</strong> - this class is traditional volatility estimator. Computes volatility of a given time series using squared returns</li>
+<li><strong>TraditionalVolatility.java</strong> - this class is traditional volatility estimator. Computes volatility of a given time series using squared returns</li>
 <li><strong>ThetaTime.java</strong> - realizes the concept of theta time described in the work of Docorogna et. al. 1993 "A geographical model for the daily and weekly seasonal volatility in the foreign exchange market".</li>
 </ul>
 
