@@ -22,6 +22,7 @@ The majority of the tools equipped by comprehensive explanations and several exa
 <li><strong>LiquidityIndicator.java</strong> - is a realization of the "Multi-scale Representation of High Frequency Market Liquidity" paper working on real data</li>
 <li><strong>MovingWindowVolatilityEstimator.java</strong> - is a volatility estimator basen on the novel approach of the Directional Change Intrinsic Time</li>
 <li><strong>OSmoveScalingLaw.java</strong> - this class builds the "Overshoot scaling law", Law 9 from the "Patterns in high-frequency FX data: Discovery of 12 empirical scaling laws"</li>
+<li><strong>TimeTotMoveScalLaw.java</strong> - this class builds the "Time total-move scaling law", Law 10 from the "Patterns in high-frequency FX data: Discovery of 12 empirical scaling laws"</li>
 <li><strong>RealizedVolatility.java</strong> - is practical realization of the theoretical work presented in the working paper "Bridging the gap between physical and intrinsic time" (volatility, computed using overshoot variability)</li>
 <li><strong>InatantaneousVolatilitySeasonality.java</strong> - the class contains methods able to compute volatility seasonality based on the number of directional change intrinsic events</li>
 </ul>
