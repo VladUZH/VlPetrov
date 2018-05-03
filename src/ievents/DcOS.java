@@ -23,11 +23,12 @@ public class DcOS{
     private double osSizeDown;
     private int mode; // +1 for expected upward DC, -1 for expected downward DC
     private boolean initialized;
-    private long reference;
+    private long reference; // is the price at which an OS intrinsic event is observed
     private long latestDCprice; // this is the price of the latest registered DC IE
     private long prevDCprice; // this is the price of the DC IE before the latest one
     private boolean relativeMoves; // shows if the algorithm should compute relative of absolute price changes
     private double osL; // is length of the previous overshoot
+    private long tPrevOS, tPrevDcIE, tOS, tDcIE, tExtreme, tOsIE; // times of the tipping points of the intrinsic time
 
     public DcOS(double thresholdUp, double thresholdDown, int initialMode, double osSizeUp, double osSizeDown, boolean relativeMoves){
         this.initialized = false;
@@ -47,6 +48,7 @@ public class DcOS{
         this.osSizeUp = osSizeUp;
         this.osSizeDown = osSizeDown;
         extreme = prevExtreme = reference = prevDCprice = latestDCprice = (mode == 1 ? initPrice.getAsk() : initPrice.getBid());
+        tPrevOS = tPrevDcIE = tOS = tDcIE = tExtreme = tOsIE = initPrice.getTime();
 
     }
 
@@ -68,17 +70,26 @@ public class DcOS{
         if (!initialized){
             initialized = true;
             extreme = prevExtreme = reference = prevDCprice = latestDCprice =(mode == 1 ? aPrice.getAsk() : aPrice.getBid());
+            tPrevOS = tPrevDcIE = tOS = tDcIE = tExtreme = tOsIE = aPrice.getTime();
+
         } else {
             if (mode == 1){
                 if (aPrice.getAsk() < extreme){
                     extreme = aPrice.getAsk();
+                    tExtreme = aPrice.getTime();
                     if ( -Math.log((double) extreme / reference) >= osSizeDown){
                         reference = extreme;
+                        tOsIE = aPrice.getTime();
                         return -2;
                     }
                     return 0;
                 } else if (Math.log((double) aPrice.getBid() / extreme) >= thresholdUp){
                     osL = -Math.log((double) extreme / latestDCprice);
+                    tPrevOS = tOS;
+                    tPrevDcIE = tDcIE;
+                    tOS = tExtreme;
+                    tDcIE = aPrice.getTime();
+                    tExtreme = aPrice.getTime();
                     prevDCprice = latestDCprice;
                     latestDCprice = aPrice.getBid();
                     prevExtreme = extreme;
@@ -90,13 +101,20 @@ public class DcOS{
             else if (mode == -1){
                 if (aPrice.getBid() > extreme){
                     extreme = aPrice.getBid();
+                    tExtreme = aPrice.getTime();
                     if (Math.log((double) extreme / reference) >= osSizeUp){
                         reference = extreme;
+                        tOsIE = aPrice.getTime();
                         return 2;
                     }
                     return 0;
                 } else if (-Math.log((double) aPrice.getAsk() / extreme) >= thresholdDown){
                     osL = Math.log((double) extreme / latestDCprice);
+                    tPrevOS = tOS;
+                    tPrevDcIE = tDcIE;
+                    tOS = tExtreme;
+                    tDcIE = aPrice.getTime();
+                    tExtreme = aPrice.getTime();
                     prevDCprice = latestDCprice;
                     latestDCprice = aPrice.getAsk();
                     prevExtreme = extreme;
@@ -124,13 +142,20 @@ public class DcOS{
             if (mode == 1){
                 if (aPrice.getAsk() < extreme){
                     extreme = aPrice.getAsk();
+                    tExtreme = aPrice.getTime();
                     if ( -(extreme - reference) >= osSizeDown){
                         reference = extreme;
+                        tOsIE = aPrice.getTime();
                         return -2;
                     }
                     return 0;
                 } else if (aPrice.getBid() - extreme >= thresholdUp){
                     osL = -(extreme - latestDCprice);
+                    tPrevOS = tOS;
+                    tPrevDcIE = tDcIE;
+                    tOS = tExtreme;
+                    tDcIE = aPrice.getTime();
+                    tExtreme = aPrice.getTime();
                     prevDCprice = latestDCprice;
                     latestDCprice = aPrice.getBid();
                     prevExtreme = extreme;
@@ -142,13 +167,20 @@ public class DcOS{
             else if (mode == -1){
                 if (aPrice.getBid() > extreme){
                     extreme = aPrice.getBid();
+                    tExtreme = aPrice.getTime();
                     if (extreme - reference >= osSizeUp){
                         reference = extreme;
+                        tOsIE = aPrice.getTime();
                         return 2;
                     }
                     return 0;
                 } else if (-(aPrice.getAsk() - extreme) >= thresholdDown){
                     osL = (extreme - latestDCprice);
+                    tPrevOS = tOS;
+                    tPrevDcIE = tDcIE;
+                    tOS = tExtreme;
+                    tDcIE = aPrice.getTime();
+                    tExtreme = aPrice.getTime();
                     prevDCprice = latestDCprice;
                     latestDCprice = aPrice.getAsk();
                     prevExtreme = extreme;
@@ -253,5 +285,29 @@ public class DcOS{
 
     public void setReference(long reference) {
         this.reference = reference;
+    }
+
+    public long gettPrevOS() {
+        return tPrevOS;
+    }
+
+    public long gettPrevDcIE() {
+        return tPrevDcIE;
+    }
+
+    public long gettOS() {
+        return tOS;
+    }
+
+    public long gettDcIE() {
+        return tDcIE;
+    }
+
+    public long gettExtreme() {
+        return tExtreme;
+    }
+
+    public long gettOsIE() {
+        return tOsIE;
     }
 }
