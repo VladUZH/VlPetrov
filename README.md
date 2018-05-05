@@ -7,7 +7,7 @@ The majority of the tools equipped by comprehensive explanations and several exa
 
 <ul>
 <li><strong>LiquidityIndicator_Analysis.java</strong> - computes liquidity of a real time series. It is a simple shell for the LiquidityIndicator class from the ievent package. It just needs a path to a file and several parameters.</li>
-<li><strong>InstantaneousVolatilityActivity_Analisys.java</strong> - this class is in essence a practical implementation of the "ievents/VolatilitySeasonality".</li>
+<li><strong>RealizedVolatilityActivity_Analisys.java</strong> - this class is in essence a practical implementation of the "ievents/VolatilitySeasonality".</li>
 <li><strong>VolatilityEstimatorMovingWindow_Analysis.java</strong> - this class can be used to perform a complete analysis of a given price set</li>
 </ul>
 
@@ -21,6 +21,7 @@ The majority of the tools equipped by comprehensive explanations and several exa
 <li><strong>LiquidityIndicator.java</strong> - is a realization of the "Multi-scale Representation of High Frequency Market Liquidity" paper working on real data</li>
 <li><strong>MovingWindowVolatilityEstimator.java</strong> - is a volatility estimator basen on the novel approach of the Directional Change Intrinsic Time</li>
 <li><strong>RealizedVolatility.java</strong> - is practical realization of the theoretical work presented in the working paper "Bridging the gap between physical and intrinsic time" (volatility, computed using overshoot variability)</li>
+<li><strong>RealizedVolatilitySeasonality.java</strong> - the class contains methods able to compute volatility seasonality based on the overshoot variability</li>
 <li><strong>InatantaneousVolatilitySeasonality.java</strong> - the class contains methods able to compute volatility seasonality based on the number of directional change intrinsic events</li>
 <li><strong>InstantaneousVolatility.java</strong> - is practical realization of the theoretical work presented in the paper "Waiting Times and Number of Directional Changes in an Intrinsic Time Framework" (<em>instantaneous</em> volatility, computed using number of observed directional changes)</li>
 <li><h4><em>scalinglaws</em> folder:</h4>
