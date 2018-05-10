@@ -23,6 +23,10 @@ public class Price {
         this.nDecimals = nDecimals;
     }
 
+    public Price clone(){
+        return new Price(this.bid, this.ask, this.time, this.nDecimals);
+    }
+
     public long getAsk() {
         return ask;
     }
