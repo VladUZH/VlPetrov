@@ -24,13 +24,13 @@ The majority of the tools equipped by comprehensive explanations and several exa
 <li><strong>RealizedVolatilitySeasonality.java</strong> - the class contains methods able to compute volatility seasonality based on the overshoot variability</li>
 <li><strong>InatantaneousVolatilitySeasonality.java</strong> - the class contains methods able to compute volatility seasonality based on the number of directional change intrinsic events</li>
 <li><strong>InstantaneousVolatility.java</strong> - is practical realization of the theoretical work presented in the paper "Waiting Times and Number of Directional Changes in an Intrinsic Time Framework" (<em>instantaneous</em> volatility, computed using number of observed directional changes)</li>
-<li><h4><em>scalinglaws</em> folder:</h4>
-    <ul>
-    <li><strong>DCcountScalingLaw.java</strong> - Number of Directional-Changes scaling law, Law 0b from the "Patterns in high-frequency FX data: Discovery of 12 empirical scaling laws"</li>
-    <li><strong>OSmoveScalingLaw.java</strong> - this class builds the "Overshoot scaling law", Law 9 from the "Patterns in high-frequency FX data: Discovery of 12 empirical scaling laws"</li>
-    <li><strong>TimeTotMoveScalLaw.java</strong> - this class builds the "Time total-move scaling law", Law 10 from the "Patterns in high-frequency FX data: Discovery of 12 empirical scaling laws"</li>
-    </ul>
-</li>
+</ul>
+
+<h3>Folder <em>scalinglaws</em> contains:</h3>
+<ul>
+<li><strong>DCcountScalingLaw.java</strong> - Number of Directional-Changes scaling law, Law 0b from the "Patterns in high-frequency FX data: Discovery of 12 empirical scaling laws"</li>
+<li><strong>OSmoveScalingLaw.java</strong> - this class builds the "Overshoot scaling law", Law 9 from the "Patterns in high-frequency FX data: Discovery of 12 empirical scaling laws"</li>
+<li><strong>TimeTotMoveScalLaw.java</strong> - this class builds the "Time total-move scaling law", Law 10 from the "Patterns in high-frequency FX data: Discovery of 12 empirical scaling laws"</li>
 </ul>
 
 <h3>Folder <em>market</em> contains:</h3>
