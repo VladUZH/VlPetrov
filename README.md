@@ -33,6 +33,7 @@ The majority of the tools equipped by comprehensive explanations and several exa
 <li><strong>TimeTotMoveScalLaw.java</strong> - this class builds the "Time total-move scaling law", Law 10 from the "Patterns in high-frequency FX data: Discovery of 12 empirical scaling laws"</li>
 <li><strong>MeanPriceMoveScalingLaw.java</strong> - this class builds the "Mean price move scaling law", Law 0a, p=1 from the "Patterns in high-frequency FX data: Discovery of 12 empirical scaling laws"</li>
 <li><strong>QuadraticMeanPriceMoveScalingLaw.java</strong> - this class builds the "Quadratic mean price move scaling law", Law 0a, p=2 from the "Patterns in high-frequency FX data: Discovery of 12 empirical scaling laws"</li>
+<li><strong>PriceMoveCountScalingLaw.java</strong> - this class builds the "Price move count scaling law", Law 2 from the "Patterns in high-frequency FX data: Discovery of 12 empirical scaling laws"</li>
 
 </ul>
 
