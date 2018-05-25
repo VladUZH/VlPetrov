@@ -26,15 +26,16 @@ The majority of the tools equipped by comprehensive explanations and several exa
 <li><strong>InstantaneousVolatility.java</strong> - is practical realization of the theoretical work presented in the paper "Waiting Times and Number of Directional Changes in an Intrinsic Time Framework" (<em>instantaneous</em> volatility, computed using number of observed directional changes)</li>
 </ul>
 
-<h3>Folder <em>scalinglaws</em> contains:</h3>
+<h3>Folder <em>scalinglaws</em> contains scaling laws from the "Patterns in high-frequency FX data: Discovery of 12 empirical scaling laws":</h3>
 <ul>
-<li><strong>DCcountScalingLaw.java</strong> - Number of Directional-Changes scaling law, Law 0b from the "Patterns in high-frequency FX data: Discovery of 12 empirical scaling laws"</li>
-<li><strong>OSmoveScalingLaw.java</strong> - this class builds the "Overshoot scaling law", Law 9 from the "Patterns in high-frequency FX data: Discovery of 12 empirical scaling laws"</li>
-<li><strong>TimeTotMoveScalLaw.java</strong> - this class builds the "Time total-move scaling law", Law 10 from the "Patterns in high-frequency FX data: Discovery of 12 empirical scaling laws"</li>
-<li><strong>MeanPriceMoveScalingLaw.java</strong> - this class builds the "Mean price move scaling law", Law 0a, p=1 from the "Patterns in high-frequency FX data: Discovery of 12 empirical scaling laws"</li>
-<li><strong>QuadraticMeanPriceMoveScalingLaw.java</strong> - this class builds the "Quadratic mean price move scaling law", Law 0a, p=2 from the "Patterns in high-frequency FX data: Discovery of 12 empirical scaling laws"</li>
-<li><strong>PriceMoveCountScalingLaw.java</strong> - this class builds the "Price move count scaling law", Law 2 from the "Patterns in high-frequency FX data: Discovery of 12 empirical scaling laws"</li>
-<li><strong>MaxPriceMoveScalingLaw.java</strong> - this class builds the "Maximal price move during scaling law", Law 3, p=1 from the "Patterns in high-frequency FX data: Discovery of 12 empirical scaling laws"</li>
+<li><strong>DCcountScalingLaw.java</strong> - Number of Directional-Changes scaling law, Law 0b </li>
+<li><strong>OSmoveScalingLaw.java</strong> - this class builds the "Overshoot scaling law", Law 9</li>
+<li><strong>TimeTotMoveScalLaw.java</strong> - this class builds the "Time total-move scaling law", Law 10</li>
+<li><strong>MeanPriceMoveScalingLaw.java</strong> - this class builds the "Mean price move scaling law", Law 0a, p=1</li>
+<li><strong>QuadraticMeanPriceMoveScalingLaw.java</strong> - this class builds the "Quadratic mean price move scaling law", Law 0a, p=2</li>
+<li><strong>PriceMoveCountScalingLaw.java</strong> - this class builds the "Price move count scaling law", Law 2</li>
+<li><strong>MaxPriceMoveScalingLaw.java</strong> - this class builds the "Maximal price move during scaling law", Law 3, p=1</li>
+<li><strong>QuadraticMeanMaxPriceMoveScalingLaw.java</strong> - this class builds the "Maximal price move during scaling law", Law 3, p=2</li>
 
 </ul>
 
