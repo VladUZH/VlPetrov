@@ -28,6 +28,7 @@ public class DcOS{
     private long prevDCprice; // this is the price of the DC IE before the latest one
     private boolean relativeMoves; // shows if the algorithm should compute relative of absolute price changes
     private double osL; // is length of the previous overshoot
+    private double totalMove; // the length of the previous total move
     private long tPrevOS, tPrevDcIE, tOS, tDcIE, tExtreme, tOsIE; // times of the tipping points of the intrinsic time
 
     public DcOS(double thresholdUp, double thresholdDown, int initialMode, double osSizeUp, double osSizeDown, boolean relativeMoves){
@@ -85,6 +86,7 @@ public class DcOS{
                     return 0;
                 } else if (Math.log((double) aPrice.getBid() / extreme) >= thresholdUp){
                     osL = -Math.log((double) extreme / latestDCprice);
+                    totalMove = -Math.log((double) extreme / prevExtreme);
                     tPrevOS = tOS;
                     tPrevDcIE = tDcIE;
                     tOS = tExtreme;
@@ -110,6 +112,7 @@ public class DcOS{
                     return 0;
                 } else if (-Math.log((double) aPrice.getAsk() / extreme) >= thresholdDown){
                     osL = Math.log((double) extreme / latestDCprice);
+                    totalMove = Math.log((double) extreme / prevExtreme);
                     tPrevOS = tOS;
                     tPrevDcIE = tDcIE;
                     tOS = tExtreme;
@@ -151,6 +154,7 @@ public class DcOS{
                     return 0;
                 } else if (aPrice.getBid() - extreme >= thresholdUp){
                     osL = -(extreme - latestDCprice);
+                    totalMove = -(extreme - prevExtreme);
                     tPrevOS = tOS;
                     tPrevDcIE = tDcIE;
                     tOS = tExtreme;
@@ -176,6 +180,7 @@ public class DcOS{
                     return 0;
                 } else if (-(aPrice.getAsk() - extreme) >= thresholdDown){
                     osL = (extreme - latestDCprice);
+                    totalMove = (extreme - prevExtreme);
                     tPrevOS = tOS;
                     tPrevDcIE = tDcIE;
                     tOS = tExtreme;
@@ -211,6 +216,10 @@ public class DcOS{
 
     public double getOsL(){
         return osL;
+    }
+
+    public double getTotalMove(){
+        return totalMove;
     }
 
     public long getLatestDCprice() {
@@ -309,5 +318,9 @@ public class DcOS{
 
     public long gettOsIE() {
         return tOsIE;
+    }
+
+    public long getTimeDuringDC(){
+        return tDcIE - tPrevDcIE;
     }
 }
