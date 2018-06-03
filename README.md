@@ -37,6 +37,7 @@ The majority of the tools equipped by comprehensive explanations and several exa
 <li><strong>MaxPriceMoveScalingLaw.java</strong> - this class builds the "Maximal price move during scaling law", Law 3, p=1</li>
 <li><strong>QuadraticMeanMaxPriceMoveScalingLaw.java</strong> - this class builds the "Maximal price move during scaling law", Law 3, p=2</li>
 <li><strong>MeanTimePriceMoveScalingLaw.java</strong> - this class builds the "Mean time of price move scaling law", Law 4</li>
+<li><strong>TimeDuringDCScalingLaw.java</strong> - this class builds the "Time during directional-change scaling law", Law 5</li>
 
 </ul>
 
