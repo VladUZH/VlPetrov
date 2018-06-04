@@ -74,7 +74,7 @@ public class TimeDuringDCScalingLaw {
      */
     public double[] finish(){
         for (int i = 0; i < numPoints; i++){
-            timeDC[i] = timeDC[i] / numDCs[i];
+            timeDC[i] = timeDC[i] / (numDCs[i] * 1000); // to get the average expressed in seconds
         }
         return computeParams();
     }
