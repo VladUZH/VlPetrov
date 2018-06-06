@@ -11,7 +11,7 @@ import java.util.Date;
 /**
  * Created by author.
  *
- * This class is dedicated to the computation of the "Overshoot scaling law", Law 9 from
+ * This class is dedicated to the computation of the "Overshoot scaling law", Law 9 (os) from
  * the "Patterns in high-frequency FX data: Discovery of 12 empirical scaling laws".
  *
  * One of the results of the computation is a file with two columns: Delta, OSmove.
