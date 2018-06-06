@@ -28,24 +28,25 @@ The majority of the tools equipped by comprehensive explanations and several exa
 
 <h3>Folder <em>scalinglaws</em> contains scaling laws from the "Patterns in high-frequency FX data: Discovery of 12 empirical scaling laws":</h3>
 <ul>
-<li><strong>DCcountScalingLaw.java</strong> - Number of Directional-Changes scaling law, Law 0b </li>
-<li><strong>OSmoveScalingLaw.java</strong> - this class builds the "Overshoot scaling law", Law 9(os)</li>
-<li><strong>TimeTotMoveScalLaw.java</strong> - this class builds the "Time total-move scaling law", Law 10(tm)</li>
 <li><strong>MeanPriceMoveScalingLaw.java</strong> - this class builds the "Mean price move scaling law", Law 0a, p=1</li>
 <li><strong>QuadraticMeanPriceMoveScalingLaw.java</strong> - this class builds the "Quadratic mean price move scaling law", Law 0a, p=2</li>
+<li><strong>DCcountScalingLaw.java</strong> - Number of Directional-Changes scaling law, Law 0b </li>
 <li><strong>PriceMoveCountScalingLaw.java</strong> - this class builds the "Price move count scaling law", Law 2</li>
 <li><strong>MaxPriceMoveScalingLaw.java</strong> - this class builds the "Maximal price move during scaling law", Law 3, p=1</li>
 <li><strong>QuadraticMeanMaxPriceMoveScalingLaw.java</strong> - this class builds the "Maximal price move during scaling law", Law 3, p=2</li>
 <li><strong>MeanTimePriceMoveScalingLaw.java</strong> - this class builds the "Mean time of price move scaling law", Law 4</li>
 <li><strong>TimeDuringDCScalingLaw.java</strong> - this class builds the "Time during directional-change scaling law", Law 5</li>
 <li><strong>TotalMoveScalingLaw.java</strong> - this class builds the "Total move scaling law", Law 9(tm)</li>
+<li><strong>OSmoveScalingLaw.java</strong> - this class builds the "Overshoot scaling law", Law 9(os)</li>
+<li><strong>TimeTotMoveScalLaw.java</strong> - this class builds the "Time total-move scaling law", Law 10(tm)</li>
+<li><strong>TimeDCScalingLaw.java</strong> - this class builds the "Time of directional change scaling law", Law 10(dc)</li>
+<li><strong>TimeOSScalingLaw.java</strong> - this class builds the "Time of overshoot scaling law", Law 10(os)</li>
 <li><strong>TMtickCountScalingLaw.java</strong> - this class builds the "Total move tick count scaling law", Law 11(tm)</li>
 <li><strong>DCtickCountScalingLaw.java</strong> - this class builds the "Directional change tick count scaling law", Law 11(dc)</li>
 <li><strong>OStickCountScalingLaw.java</strong> - this class builds the "Overshoot tick count scaling law", Law 11(os)</li>
 <li><strong>CumulTMScalingLaw.java</strong> - this class builds the "Cumulative total move scaling law" (coastline), Law 12(tm)</li>
 <li><strong>CumulOSScalingLaw.java</strong> - this class builds the "Cumulative overshoot scaling law", Law 12(os)</li>
 <li><strong>CumulDCScalingLaw.java</strong> - this class builds the "Cumulative directional change scaling law", Law 12(dc)</li>
-
 
 </ul>
 
