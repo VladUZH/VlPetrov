@@ -42,6 +42,9 @@ The majority of the tools equipped by comprehensive explanations and several exa
 <li><strong>TMtickCountScalingLaw.java</strong> - this class builds the "Total move tick count scaling law", Law 11(tm)</li>
 <li><strong>DCtickCountScalingLaw.java</strong> - this class builds the "Directional change tick count scaling law", Law 11(dc)</li>
 <li><strong>OStickCountScalingLaw.java</strong> - this class builds the "Overshoot tick count scaling law", Law 11(os)</li>
+<li><strong>CumulTMScalingLaw.java</strong> - this class builds the "Cumulative total move scaling law" (coastline), Law 12(tm)</li>
+<li><strong>CumulOSScalingLaw.java</strong> - this class builds the "Cumulative overshoot scaling law", Law 12(os)</li>
+<li><strong>CumulDCScalingLaw.java</strong> - this class builds the "Cumulative directional change scaling law", Law 12(dc)</li>
 
 
 </ul>
