@@ -29,6 +29,7 @@ public class DcOS{
     private boolean relativeMoves; // shows if the algorithm should compute relative of absolute price changes
     private double osL; // is length of the previous overshoot
     private double totalMove; // the length of the previous total move
+    private double dcL; // length of a directional-change (to compare with the threshold)
     private long tPrevOS, tPrevDcIE, tOS, tDcIE, tExtreme, tOsIE; // times of the tipping points of the intrinsic time
     private int ticksOS, ticksDC, ticksPrevOS, ticksPrevDC, ticksTM; // number of ticks within specific sections
 
@@ -88,25 +89,28 @@ public class DcOS{
                         return -2;
                     }
                     return 0;
-                } else if (Math.log((double) aPrice.getBid() / extreme) >= thresholdUp){
-                    osL = -Math.log((double) extreme / latestDCprice);
-                    totalMove = -Math.log((double) extreme / prevExtreme);
-                    tPrevOS = tOS;
-                    tPrevDcIE = tDcIE;
-                    tOS = tExtreme;
-                    tDcIE = aPrice.getTime();
-                    tExtreme = aPrice.getTime();
-                    prevDCprice = latestDCprice;
-                    latestDCprice = aPrice.getBid();
-                    prevExtreme = extreme;
-                    extreme = reference = aPrice.getBid();
-                    ticksPrevOS = ticksOS - ticksDC;
-                    ticksTM = ticksPrevDC + ticksPrevOS;
-                    ticksPrevDC = ticksDC;
-                    ticksDC = 0;
-                    ticksOS = 0;
-                    mode *= -1;
-                    return 1;
+                } else {
+                    dcL = Math.log((double) aPrice.getBid() / extreme);
+                    if (dcL >= thresholdUp){
+                        osL = -Math.log((double) extreme / latestDCprice);
+                        totalMove = -Math.log((double) extreme / prevExtreme);
+                        tPrevOS = tOS;
+                        tPrevDcIE = tDcIE;
+                        tOS = tExtreme;
+                        tDcIE = aPrice.getTime();
+                        tExtreme = aPrice.getTime();
+                        prevDCprice = latestDCprice;
+                        latestDCprice = aPrice.getBid();
+                        prevExtreme = extreme;
+                        extreme = reference = aPrice.getBid();
+                        ticksPrevOS = ticksOS - ticksDC;
+                        ticksTM = ticksPrevDC + ticksPrevOS;
+                        ticksPrevDC = ticksDC;
+                        ticksDC = 0;
+                        ticksOS = 0;
+                        mode *= -1;
+                        return 1;
+                    }
                 }
             }
             else if (mode == -1){
@@ -122,25 +126,28 @@ public class DcOS{
                         return 2;
                     }
                     return 0;
-                } else if (-Math.log((double) aPrice.getAsk() / extreme) >= thresholdDown){
-                    osL = Math.log((double) extreme / latestDCprice);
-                    totalMove = Math.log((double) extreme / prevExtreme);
-                    tPrevOS = tOS;
-                    tPrevDcIE = tDcIE;
-                    tOS = tExtreme;
-                    tDcIE = aPrice.getTime();
-                    tExtreme = aPrice.getTime();
-                    prevDCprice = latestDCprice;
-                    latestDCprice = aPrice.getAsk();
-                    prevExtreme = extreme;
-                    extreme = reference = aPrice.getAsk();
-                    ticksPrevOS = ticksOS - ticksDC;
-                    ticksTM = ticksPrevDC + ticksPrevOS;
-                    ticksPrevDC = ticksDC;
-                    ticksDC = 0;
-                    ticksOS = 0;
-                    mode *= -1;
-                    return -1;
+                } else {
+                    dcL = -Math.log((double) aPrice.getAsk() / extreme);
+                    if (dcL >= thresholdDown){
+                        osL = Math.log((double) extreme / latestDCprice);
+                        totalMove = Math.log((double) extreme / prevExtreme);
+                        tPrevOS = tOS;
+                        tPrevDcIE = tDcIE;
+                        tOS = tExtreme;
+                        tDcIE = aPrice.getTime();
+                        tExtreme = aPrice.getTime();
+                        prevDCprice = latestDCprice;
+                        latestDCprice = aPrice.getAsk();
+                        prevExtreme = extreme;
+                        extreme = reference = aPrice.getAsk();
+                        ticksPrevOS = ticksOS - ticksDC;
+                        ticksTM = ticksPrevDC + ticksPrevOS;
+                        ticksPrevDC = ticksDC;
+                        ticksDC = 0;
+                        ticksOS = 0;
+                        mode *= -1;
+                        return -1;
+                    }
                 }
             }
         }
@@ -172,25 +179,28 @@ public class DcOS{
                         return -2;
                     }
                     return 0;
-                } else if (aPrice.getBid() - extreme >= thresholdUp){
-                    osL = -(extreme - latestDCprice);
-                    totalMove = -(extreme - prevExtreme);
-                    tPrevOS = tOS;
-                    tPrevDcIE = tDcIE;
-                    tOS = tExtreme;
-                    tDcIE = aPrice.getTime();
-                    tExtreme = aPrice.getTime();
-                    prevDCprice = latestDCprice;
-                    latestDCprice = aPrice.getBid();
-                    prevExtreme = extreme;
-                    extreme = reference = aPrice.getBid();
-                    ticksPrevOS = ticksOS - ticksDC;
-                    ticksTM = ticksPrevDC + ticksPrevOS;
-                    ticksPrevDC = ticksDC;
-                    ticksDC = 0;
-                    ticksOS = 0;
-                    mode *= -1;
-                    return 1;
+                } else {
+                    dcL = aPrice.getBid() - extreme;
+                    if (dcL >= thresholdUp){
+                        osL = -(extreme - latestDCprice);
+                        totalMove = -(extreme - prevExtreme);
+                        tPrevOS = tOS;
+                        tPrevDcIE = tDcIE;
+                        tOS = tExtreme;
+                        tDcIE = aPrice.getTime();
+                        tExtreme = aPrice.getTime();
+                        prevDCprice = latestDCprice;
+                        latestDCprice = aPrice.getBid();
+                        prevExtreme = extreme;
+                        extreme = reference = aPrice.getBid();
+                        ticksPrevOS = ticksOS - ticksDC;
+                        ticksTM = ticksPrevDC + ticksPrevOS;
+                        ticksPrevDC = ticksDC;
+                        ticksDC = 0;
+                        ticksOS = 0;
+                        mode *= -1;
+                        return 1;
+                    }
                 }
             }
             else if (mode == -1){
@@ -204,25 +214,28 @@ public class DcOS{
                         return 2;
                     }
                     return 0;
-                } else if (-(aPrice.getAsk() - extreme) >= thresholdDown){
-                    osL = (extreme - latestDCprice);
-                    totalMove = (extreme - prevExtreme);
-                    tPrevOS = tOS;
-                    tPrevDcIE = tDcIE;
-                    tOS = tExtreme;
-                    tDcIE = aPrice.getTime();
-                    tExtreme = aPrice.getTime();
-                    prevDCprice = latestDCprice;
-                    latestDCprice = aPrice.getAsk();
-                    prevExtreme = extreme;
-                    extreme = reference = aPrice.getAsk();
-                    ticksPrevOS = ticksOS - ticksDC;
-                    ticksTM = ticksPrevDC + ticksPrevOS;
-                    ticksPrevDC = ticksDC;
-                    ticksDC = 0;
-                    ticksOS = 0;
-                    mode *= -1;
-                    return -1;
+                } else {
+                    dcL = -(aPrice.getAsk() - extreme);
+                    if (dcL >= thresholdDown){
+                        osL = (extreme - latestDCprice);
+                        totalMove = (extreme - prevExtreme);
+                        tPrevOS = tOS;
+                        tPrevDcIE = tDcIE;
+                        tOS = tExtreme;
+                        tDcIE = aPrice.getTime();
+                        tExtreme = aPrice.getTime();
+                        prevDCprice = latestDCprice;
+                        latestDCprice = aPrice.getAsk();
+                        prevExtreme = extreme;
+                        extreme = reference = aPrice.getAsk();
+                        ticksPrevOS = ticksOS - ticksDC;
+                        ticksTM = ticksPrevDC + ticksPrevOS;
+                        ticksPrevDC = ticksDC;
+                        ticksDC = 0;
+                        ticksOS = 0;
+                        mode *= -1;
+                        return -1;
+                    }
                 }
             }
         }
@@ -251,6 +264,10 @@ public class DcOS{
 
     public double getTotalMove(){
         return totalMove;
+    }
+
+    public double getDcL(){
+        return dcL;
     }
 
     public long getLatestDCprice() {
