@@ -11,10 +11,10 @@ import java.util.Date;
 /**
  * Created by author.
  *
- * This class is dedicated to the computation of the "Time of total-move (TM) scaling law", Law 10 from
+ * This class is dedicated to the computation of the "Time of total-move (TM) scaling law", Law 10(tm) from
  * the "Patterns in high-frequency FX data: Discovery of 12 empirical scaling laws" by Glattfelder et. al.
  *
- * The results of the computation is a file with two columns: Delta, TimeTM (in milliseconds).
+ * The results of the computation is a file with two columns: Delta, TimeTM (in seconds).
  * Another result is the coefficients E_{T, TM} and C_{T, TM} of the scaling law.
  * * ATTENTION!!! X axis is expressed in the fractional term where 1% is 0.01. Y axis is in seconds.
  *
