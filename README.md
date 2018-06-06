@@ -38,6 +38,7 @@ The majority of the tools equipped by comprehensive explanations and several exa
 <li><strong>TimeDuringDCScalingLaw.java</strong> - this class builds the "Time during directional-change scaling law", Law 5</li>
 <li><strong>TotalMoveScalingLaw.java</strong> - this class builds the "Total move scaling law", Law 9(tm)</li>
 <li><strong>OSmoveScalingLaw.java</strong> - this class builds the "Overshoot scaling law", Law 9(os)</li>
+<li><strong>DCmoveScalingLaw.java</strong> - this class builds the "Directional-change move scaling law", Law 9(dc)</li>
 <li><strong>TimeTotMoveScalLaw.java</strong> - this class builds the "Time total-move scaling law", Law 10(tm)</li>
 <li><strong>TimeDCScalingLaw.java</strong> - this class builds the "Time of directional change scaling law", Law 10(dc)</li>
 <li><strong>TimeOSScalingLaw.java</strong> - this class builds the "Time of overshoot scaling law", Law 10(os)</li>
