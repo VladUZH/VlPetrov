@@ -106,7 +106,7 @@ public class MeanTimePriceMoveScalingLaw {
             PrintWriter writer = new PrintWriter(dirName + "/" + fileName, "UTF-8");
             writer.println("Delta;MeanTimePriceMove");
             for (int i = 0; i < numPoints; i++){
-                writer.println(arrayDeltas[i] + ";" + numPriceMoves[i]);
+                writer.println(arrayDeltas[i] + ";" + timeOfPriceMove[i]);
             }
             writer.close();
             System.out.println("The file is saved as:   " + fileName);
