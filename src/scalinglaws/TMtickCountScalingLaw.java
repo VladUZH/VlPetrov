@@ -99,7 +99,7 @@ public class TMtickCountScalingLaw {
             PrintWriter writer = new PrintWriter(dirName + "/" + fileName, "UTF-8");
             writer.println("Delta;TMticksNum");
             for (int i = 0; i < numPoints; i++){
-                writer.println(arrayDeltas[i] + ";" + numDCs[i]);
+                writer.println(arrayDeltas[i] + ";" + ticksPerTM[i]);
             }
             writer.close();
             System.out.println("The file is saved as:   " + fileName);

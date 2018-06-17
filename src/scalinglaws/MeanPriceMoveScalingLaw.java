@@ -50,7 +50,7 @@ public class MeanPriceMoveScalingLaw {
         endTimestamps = new long[numSteps];
         sumPriceMoves = new double[numSteps];
         numIntervals = new int[numSteps];
-        pricesOpen = new Price[numSteps];
+        pricesOpen = new Price[numSteps]; // TODO: change to double, will be faster
         pricesEnd = new Price[numSteps];
         meanPriceMoves = new double[numSteps];
         this.numSteps = numSteps;
