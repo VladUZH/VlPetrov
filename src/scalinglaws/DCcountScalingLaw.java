@@ -74,6 +74,15 @@ public class DCcountScalingLaw {
         finalTime = aPrice.getTime();
     }
 
+
+    /**
+     */
+    public double[] finish(){
+        normalize();
+        return computeParams();
+    }
+
+
     /**
      * The function normalizes the number of DCs be multiplying them by moralization coefficient equal to the number
      * of analyzed time intervals in a full year.
