@@ -129,7 +129,7 @@ public class MaxPriceMoveScalingLaw {
         Tools.CheckDirectory(dirName);
         try {
             String dateString = new SimpleDateFormat("yyyy-MM-dd_hh-mm-ss").format(new Date());
-            String fileName = "maxPriceMoveScalingLaw" + "_" + dateString + ".csv";
+            String fileName = "5_maxPriceMoveScalingLaw" + "_" + dateString + ".csv";
             PrintWriter writer = new PrintWriter(dirName + "/" + fileName, "UTF-8");
             writer.println("DeltaT;MaxPriceMove");
             for (int i = 0; i < numSteps; i++){

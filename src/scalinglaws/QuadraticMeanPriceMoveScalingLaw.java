@@ -115,7 +115,7 @@ public class QuadraticMeanPriceMoveScalingLaw {
         Tools.CheckDirectory(dirName);
         try {
             String dateString = new SimpleDateFormat("yyyy-MM-dd_hh-mm-ss").format(new Date());
-            String fileName = "quadraticMeanPriceMoveScalingLaw" + "_" + dateString + ".csv";
+            String fileName = "2_quadraticMeanPriceMoveScalingLaw" + "_" + dateString + ".csv";
             PrintWriter writer = new PrintWriter(dirName + "/" + fileName, "UTF-8");
             writer.println("DeltaT;QuadraticMeanPriceMove");
             for (int i = 0; i < numSteps; i++){

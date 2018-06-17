@@ -89,7 +89,7 @@ public class CumulTMScalingLaw {
         Tools.CheckDirectory(dirName);
         try {
             String dateString = new SimpleDateFormat("yyyy-MM-dd_hh-mm-ss").format(new Date());
-            String fileName = "cumulTotalMoveScalingLaw" + "_" + dateString + ".csv";
+            String fileName = "12_cumulTotalMoveScalingLaw" + "_" + dateString + ".csv";
             PrintWriter writer = new PrintWriter(dirName + "/" + fileName, "UTF-8");
             writer.println("Delta;CumulTotalMove");
             for (int i = 0; i < numPoints; i++){

@@ -87,7 +87,7 @@ public class CumulOSScalingLaw {
         Tools.CheckDirectory(dirName);
         try {
             String dateString = new SimpleDateFormat("yyyy-MM-dd_hh-mm-ss").format(new Date());
-            String fileName = "cumulOSScalingLaw" + "_" + dateString + ".csv";
+            String fileName = "20_cumulOSScalingLaw" + "_" + dateString + ".csv";
             PrintWriter writer = new PrintWriter(dirName + "/" + fileName, "UTF-8");
             writer.println("Delta;CumulOS");
             for (int i = 0; i < numPoints; i++){

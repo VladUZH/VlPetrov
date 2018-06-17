@@ -96,7 +96,7 @@ public class TimeTotMoveScalLaw {
         Tools.CheckDirectory(dirName);
         try {
             String dateString = new SimpleDateFormat("yyyy-MM-dd_hh-mm-ss").format(new Date());
-            String fileName = "timeTotMoveScalingLaw" + "_" + dateString + ".csv";
+            String fileName = "10_timeTotMoveScalingLaw" + "_" + dateString + ".csv";
             PrintWriter writer = new PrintWriter(dirName + "/" + fileName, "UTF-8");
             writer.println("Delta;TimeTM");
             for (int i = 0; i < numSteps; i++){

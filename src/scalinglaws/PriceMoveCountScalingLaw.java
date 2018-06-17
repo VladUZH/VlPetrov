@@ -109,7 +109,7 @@ public class PriceMoveCountScalingLaw {
         Tools.CheckDirectory(dirName);
         try {
             String dateString = new SimpleDateFormat("yyyy-MM-dd_hh-mm-ss").format(new Date());
-            String fileName = "priceMoveCountScalingLaw" + "_" + dateString + ".csv";
+            String fileName = "4_priceMoveCountScalingLaw" + "_" + dateString + ".csv";
             PrintWriter writer = new PrintWriter(dirName + "/" + fileName, "UTF-8");
             writer.println("Delta;NumPriceMove");
             for (int i = 0; i < numPoints; i++){

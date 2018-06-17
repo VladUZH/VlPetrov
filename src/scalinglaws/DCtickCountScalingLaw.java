@@ -95,7 +95,7 @@ public class DCtickCountScalingLaw {
         Tools.CheckDirectory(dirName);
         try {
             String dateString = new SimpleDateFormat("yyyy-MM-dd_hh-mm-ss").format(new Date());
-            String fileName = "dcTicksCountScalingLaw" + "_" + dateString + ".csv";
+            String fileName = "15_dcTicksCountScalingLaw" + "_" + dateString + ".csv";
             PrintWriter writer = new PrintWriter(dirName + "/" + fileName, "UTF-8");
             writer.println("Delta;DCticksNum");
             for (int i = 0; i < numPoints; i++){

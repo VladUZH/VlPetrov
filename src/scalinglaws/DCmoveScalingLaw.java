@@ -94,7 +94,7 @@ public class DCmoveScalingLaw {
         Tools.CheckDirectory(dirName);
         try {
             String dateString = new SimpleDateFormat("yyyy-MM-dd_hh-mm-ss").format(new Date());
-            String fileName = "dcMoveScalingLaw" + "_" + dateString + ".csv";
+            String fileName = "13_dcMoveScalingLaw" + "_" + dateString + ".csv";
             PrintWriter writer = new PrintWriter(dirName + "/" + fileName, "UTF-8");
             writer.println("Delta;DCmove");
             for (int i = 0; i < numPoints; i++){

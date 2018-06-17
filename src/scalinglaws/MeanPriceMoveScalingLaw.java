@@ -115,7 +115,7 @@ public class MeanPriceMoveScalingLaw {
         Tools.CheckDirectory(dirName);
         try {
             String dateString = new SimpleDateFormat("yyyy-MM-dd_hh-mm-ss").format(new Date());
-            String fileName = "meanPriceMoveScalingLaw" + "_" + dateString + ".csv";
+            String fileName = "1_meanPriceMoveScalingLaw" + "_" + dateString + ".csv";
             PrintWriter writer = new PrintWriter(dirName + "/" + fileName, "UTF-8");
             writer.println("DeltaT;MeanPriceMove");
             for (int i = 0; i < numSteps; i++){
