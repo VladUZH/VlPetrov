@@ -1,0 +1,250 @@
+/**
+ * Created by Vladimir Petrov on 05.09.2016.
+ */
+public class RunnerM {
+
+    public double[] prevExtreme;
+    public double[] prevDC;
+    public double[] extreme;
+    public double delta;
+    public double osL;
+    public int mode;
+    public boolean initialized;
+    public String type; // define the version of the used algorithm. V (Vladimir), A(Anton), O(original), S(surface - the best)
+    public boolean firstPrice = true;
+    public double[] prevExtDCLine; // is a vector starting at prevExt and going through the DC point. Shifter to start from 0. // TODO: or not? To check.
+    public double[] extSurf; // is a surface orthogonal to the vector prevExtDCLine ang going through a given point
+
+
+    public RunnerM(double delta, String type){
+        this.delta = delta; osL = 0; this.type = type;
+        initialized = false;
+    }
+
+
+    public int run(ATickM aTickM){
+
+        double[] aPrice = aTickM.getMid().clone();
+
+        if ( !initialized ){
+
+            if (firstPrice){
+                extreme = aPrice.clone();
+                firstPrice = false;
+            }
+
+            if (getDistance(aPrice, extreme) >= delta){
+                mode = (aPrice[0] >= extreme[0] ? 1 : -1); // the first element in the array (the first rate) defines the mode
+                prevExtreme = extreme.clone();
+                prevDC = aPrice.clone(); // TODO: try to use clone() everywhere
+                extreme = aPrice.clone();
+                prevExtDCLine = lineVector(prevExtreme, prevDC);
+                extSurf = surfCoef(prevExtDCLine, aPrice);
+                initialized = true;
+                return mode;
+            }
+
+        } else {
+
+            boolean newExtreme = false;
+            switch (type){
+                case "V":
+                    newExtreme = (getDistance(aPrice, prevExtreme) > getDistance(extreme, prevExtreme) &&
+                            (getDistance(extreme, aPrice) < getDistance(prevExtreme, aPrice)));
+                    break;
+                case "A":
+                    newExtreme = (getDistance(aPrice, prevDC) >= getDistance(extreme, prevDC) &&
+                            (getDistance(aPrice, prevExtreme) >= delta));
+                    break;
+                case "O":
+                    if (mode == 1){
+                        newExtreme = (aPrice[0] > extreme[0]);
+                    } else {
+                        newExtreme = (aPrice[0] < extreme[0]);
+                    }
+                    break;
+                case "S":
+                    newExtreme = (diffSides(extSurf, prevExtreme, aPrice));
+                    break;
+            }
+
+            if (newExtreme) {
+                switch (type) {
+                    case "S":
+                        extSurf = surfCoef(prevExtDCLine, aPrice);
+                        extreme = aPrice;
+                        break;
+                    default:
+                        extreme = aPrice;
+                        break;
+                }
+                return 0;
+
+            } else {
+                boolean newDC = false;
+                switch (type){
+                    case "S":
+                        newDC = (getDistance(aPrice, projPointSurf(extSurf, aPrice)) >= delta);
+                    break;
+                    default:
+                        newDC = (getDistance(aPrice, extreme) >= delta);
+                    break;
+                }
+                if (newDC){
+                    switch (type){
+                        case "S":
+                            for (double coeff: extSurf){ System.out.print(coeff + ", ");} System.out.println("");
+                            osL = getDistance(projPointSurf(extSurf, prevDC), prevDC); // looks like all correct
+                            if (osL > 0.5){
+                                System.out.println("Collapse!"); // TODO: why collapse?
+                            }
+//                            prevExtreme = projPointSurf(extSurf, aPrice); // this of the following versions are just
+// alternative concepts. Chose the one to stick to.
+                            prevExtreme = extreme.clone();
+                            extreme = aPrice; // TODO: to put "clone" here. And everywhere where is aPrice
+                            prevExtDCLine = lineVector(prevExtreme, aPrice);
+                            extSurf = surfCoef(prevExtDCLine, aPrice);
+                        break;
+                        default:
+                            osL = getDistance(extreme, prevDC);
+                            if (osL > 1.0){
+                                System.out.println("Collapse!");
+                            }
+                            prevExtreme = extreme.clone();
+                            extreme = aPrice;
+                            break;
+                    }
+                    prevDC = aPrice;
+                    mode = -mode;
+                    return mode;
+                }
+            }
+        }
+
+        return 0;
+    }
+
+
+    /**
+     * The method computes Euclidean distance of multidimensional arrays.
+     * @param array1
+     * @param array2
+     * @return relative distance. // TODO: is it legal?
+     */
+    public static double getDistance(double array1[], double[] array2){
+        double Sum = 0;
+        for (int i = 0; i < array1.length; i++){
+            Sum += Math.pow((array1[i] - array2[i]) / array2[i], 2);
+        }
+        return Math.sqrt(Sum);
+    }
+
+    /**
+     * The method returns a set of coordinates which define a vector of a line going thought two given points (a,b,...,c)
+     * @return array of coefficients a, b,..., c
+     */
+    private double[] lineVector(double[] pointA, double[] pointB){
+        double[] vector = new double[pointA.length];
+        for (int i = 0; i < pointA.length; i++){
+            vector[i] = pointB[i] - pointA[i];
+        }
+        return vector;
+    }
+
+    /**
+     * Computes coefficients of a surface defined as Ax+By+...+D=0
+     * @param lineVector is the vector to which the surface should be orthogonal
+     * @param pointToGoThrough is a point on the vector through which the surface should go
+     * @return array of coefficients A,B,C,...,D
+     */
+    private double[] surfCoef(double[] lineVector, double[] pointToGoThrough){ // double checked, all correct
+        double[] surfCoef = new double[lineVector.length + 1];
+        double lastCoef = 0;
+        for (int i = 0; i < lineVector.length; i++){
+            surfCoef[i] = lineVector[i];
+            lastCoef += lineVector[i] * pointToGoThrough[i];
+        }
+        surfCoef[surfCoef.length - 1] = -lastCoef;
+        return surfCoef;
+    }
+
+    /**
+     * Computes distance between a point and its projection on a surface
+     * @param surfCoef
+     * @param point
+     * @return
+     */
+    private double distSurfPoint(double[] surfCoef, double[] point){
+        double[] projPoint = projPointSurf(surfCoef, point);
+        return getDistance(projPoint, point);
+    }
+
+
+//    /**
+//     * Computes distance from a point to a surface
+//     * @param surfCoef are coef A,B,C,...,D of a surf Ax+By+...+D=0
+//     * @param point
+//     * @return result of |AMx + BMy + CMz + ... + D| / Sqrt(A^2 + B^2 +C^2)
+//     */
+//    private double distPointToSurf(double[] surfCoef, double[] point){
+//        double upPart = 0;
+//        double botPart = 0;
+//        for (int i = 0; i < point.length; i++){
+//            upPart += surfCoef[i] * point[i];
+//            botPart += Math.pow(surfCoef[i], 2);
+//        }
+//        upPart = Math.abs(upPart + surfCoef[surfCoef.length - 1]);
+//        botPart = Math.sqrt(botPart);
+//        return upPart / botPart;
+//    }
+
+
+    /**
+     * Tells whether two point A and B are on different sides of a surface.
+     * @param surfCoef are coef A,B,C,...,D of a surf Ax+By+...+D=0
+     * @param pointA
+     * @param pointB
+     * @return true of different sides.
+     */
+    private boolean diffSides(double[] surfCoef, double[] pointA, double[] pointB){
+        double valA = 0;
+        double valB = 0;
+        for (int i = 0; i < pointA.length; i++){
+            valA += surfCoef[i] * pointA[i];
+            valB += surfCoef[i] * pointB[i];
+        }
+        valA += surfCoef[surfCoef.length - 1];
+        valB += surfCoef[surfCoef.length - 1];
+        return (valA * valB < 0);
+    }
+
+
+    /**
+     * Computes coordinates of a point W projected on a surface Ax+By+...+D=0.
+     * The used equation: W' = W - lambda * |n|
+     * @param surfCoef are coef A,B,C,...,D of a surf Ax+By+...+D=0
+     * @param point is the point one wants to project
+     * @return array of coordinates
+     */
+    private double[] projPointSurf(double[] surfCoef, double[] point){ // double checked, all correct
+        double[] projection = new double[point.length];
+        double upPart = 0, botPart = 0;
+
+        for (int i = 0; i < point.length; i++){
+            upPart += surfCoef[i] * point[i];
+            botPart += Math.pow(surfCoef[i], 2);
+        }
+        upPart += surfCoef[surfCoef.length - 1];
+        double lambda = upPart / botPart; // must be not abs value
+
+        for (int i = 0; i < point.length; i++){
+            projection[i] = point[i] - lambda * surfCoef[i];
+        }
+
+        return projection;
+    }
+
+
+
+
+}
