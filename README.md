@@ -57,6 +57,7 @@ The majority of the tools equipped by comprehensive explanations and several exa
 <ul>
 <li><strong><a href="https://github.com/VladUZH/VlPetrov/blob/master/src/market/Price.java">Price.java</a></strong> - is just a simple class for prices. Holds information about Bid, Ask, Time and some derivatives</li>
 <li><strong><a href="https://github.com/VladUZH/VlPetrov/blob/master/src/market/SpreadInfo.java">SpreadInfo.java</a></strong> - computes Median, Mean, Min and Max spread of the given price time series</li>
+<li><strong><a href="https://github.com/VladUZH/VlPetrov/blob/master/src/market/PriceMultiD.java">PriceMultiD.java</a></strong> - the multidimensional version of price. Sets of bids and asks are formed by individual components of several exchange rates</li>
 </ul>
 
 <h3>Folder <em><a href="https://github.com/VladUZH/VlPetrov/tree/master/src/tools">tools</a></em> (some additional traditional methods):</h3>
