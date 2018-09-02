@@ -1,5 +1,5 @@
 /**
- * Created by Vladimir Petrov on 05.09.2016.
+ * Created by Vladimir Petrov on 05.02.2018.
  */
 public class RunnerM {
 
@@ -10,21 +10,19 @@ public class RunnerM {
     public double osL;
     public int mode;
     public boolean initialized;
-    public String type; // define the version of the used algorithm. V (Vladimir), A(Anton), O(original), S(surface - the best)
     public boolean firstPrice = true;
-    public double[] prevExtDCLine; // is a vector starting at prevExt and going through the DC point. Shifter to start from 0. // TODO: or not? To check.
+    public double[] prevExtDCLine; // is a vector starting at prevExt and going through the DC point. Shifter to start from 0.
     public double[] extSurf; // is a surface orthogonal to the vector prevExtDCLine ang going through a given point
 
 
-    public RunnerM(double delta, String type){
-        this.delta = delta; osL = 0; this.type = type;
+    public RunnerM(double delta){
+        this.delta = delta; osL = 0;
         initialized = false;
     }
 
 
     public int run(ATickM aTickM){
-
-        double[] aPrice = aTickM.getMid().clone();
+        double[] aPrice = aTickM.getMid().clone(); // TODO: to change it to the inner price
 
         if ( !initialized ){
 
@@ -34,9 +32,9 @@ public class RunnerM {
             }
 
             if (getDistance(aPrice, extreme) >= delta){
-                mode = (aPrice[0] >= extreme[0] ? 1 : -1); // the first element in the array (the first rate) defines the mode
+                mode = (aPrice[0] >= extreme[0] ? 1 : -1); // the first element in the array (the first exchange rate) defines the mode
                 prevExtreme = extreme.clone();
-                prevDC = aPrice.clone(); // TODO: try to use clone() everywhere
+                prevDC = aPrice.clone();
                 extreme = aPrice.clone();
                 prevExtDCLine = lineVector(prevExtreme, prevDC);
                 extSurf = surfCoef(prevExtDCLine, aPrice);
@@ -45,76 +43,28 @@ public class RunnerM {
             }
 
         } else {
-
             boolean newExtreme = false;
-            switch (type){
-                case "V":
-                    newExtreme = (getDistance(aPrice, prevExtreme) > getDistance(extreme, prevExtreme) &&
-                            (getDistance(extreme, aPrice) < getDistance(prevExtreme, aPrice)));
-                    break;
-                case "A":
-                    newExtreme = (getDistance(aPrice, prevDC) >= getDistance(extreme, prevDC) &&
-                            (getDistance(aPrice, prevExtreme) >= delta));
-                    break;
-                case "O":
-                    if (mode == 1){
-                        newExtreme = (aPrice[0] > extreme[0]);
-                    } else {
-                        newExtreme = (aPrice[0] < extreme[0]);
-                    }
-                    break;
-                case "S":
-                    newExtreme = (diffSides(extSurf, prevExtreme, aPrice));
-                    break;
-            }
+            newExtreme = (diffSides(extSurf, prevExtreme, aPrice));
 
             if (newExtreme) {
-                switch (type) {
-                    case "S":
-                        extSurf = surfCoef(prevExtDCLine, aPrice);
-                        extreme = aPrice;
-                        break;
-                    default:
-                        extreme = aPrice;
-                        break;
-                }
+                extSurf = surfCoef(prevExtDCLine, aPrice);
+                extreme = aPrice.clone();
                 return 0;
 
             } else {
                 boolean newDC = false;
-                switch (type){
-                    case "S":
-                        newDC = (getDistance(aPrice, projPointSurf(extSurf, aPrice)) >= delta);
-                    break;
-                    default:
-                        newDC = (getDistance(aPrice, extreme) >= delta);
-                    break;
-                }
+                newDC = (getDistance(aPrice, projPointSurf(extSurf, aPrice)) >= delta);
+
                 if (newDC){
-                    switch (type){
-                        case "S":
-                            for (double coeff: extSurf){ System.out.print(coeff + ", ");} System.out.println("");
-                            osL = getDistance(projPointSurf(extSurf, prevDC), prevDC); // looks like all correct
-                            if (osL > 0.5){
-                                System.out.println("Collapse!"); // TODO: why collapse?
-                            }
-//                            prevExtreme = projPointSurf(extSurf, aPrice); // this of the following versions are just
-// alternative concepts. Chose the one to stick to.
-                            prevExtreme = extreme.clone();
-                            extreme = aPrice; // TODO: to put "clone" here. And everywhere where is aPrice
-                            prevExtDCLine = lineVector(prevExtreme, aPrice);
-                            extSurf = surfCoef(prevExtDCLine, aPrice);
-                        break;
-                        default:
-                            osL = getDistance(extreme, prevDC);
-                            if (osL > 1.0){
-                                System.out.println("Collapse!");
-                            }
-                            prevExtreme = extreme.clone();
-                            extreme = aPrice;
-                            break;
-                    }
-                    prevDC = aPrice;
+                    for (double coeff: extSurf){ System.out.print(coeff + ", ");} System.out.println("");
+                    osL = getDistance(projPointSurf(extSurf, prevDC), prevDC);
+//                  prevExtreme = projPointSurf(extSurf, aPrice); // Alternative version.
+                    prevExtreme = extreme.clone(); // The main version.
+                    extreme = aPrice.clone();
+                    prevExtDCLine = lineVector(prevExtreme, aPrice);
+                    extSurf = surfCoef(prevExtDCLine, aPrice);
+
+                    prevDC = aPrice.clone();
                     mode = -mode;
                     return mode;
                 }
@@ -129,7 +79,7 @@ public class RunnerM {
      * The method computes Euclidean distance of multidimensional arrays.
      * @param array1
      * @param array2
-     * @return relative distance. // TODO: is it legal?
+     * @return relative distance.
      */
     public static double getDistance(double array1[], double[] array2){
         double Sum = 0;
@@ -180,25 +130,6 @@ public class RunnerM {
     }
 
 
-//    /**
-//     * Computes distance from a point to a surface
-//     * @param surfCoef are coef A,B,C,...,D of a surf Ax+By+...+D=0
-//     * @param point
-//     * @return result of |AMx + BMy + CMz + ... + D| / Sqrt(A^2 + B^2 +C^2)
-//     */
-//    private double distPointToSurf(double[] surfCoef, double[] point){
-//        double upPart = 0;
-//        double botPart = 0;
-//        for (int i = 0; i < point.length; i++){
-//            upPart += surfCoef[i] * point[i];
-//            botPart += Math.pow(surfCoef[i], 2);
-//        }
-//        upPart = Math.abs(upPart + surfCoef[surfCoef.length - 1]);
-//        botPart = Math.sqrt(botPart);
-//        return upPart / botPart;
-//    }
-
-
     /**
      * Tells whether two point A and B are on different sides of a surface.
      * @param surfCoef are coef A,B,C,...,D of a surf Ax+By+...+D=0
@@ -234,6 +165,7 @@ public class RunnerM {
             upPart += surfCoef[i] * point[i];
             botPart += Math.pow(surfCoef[i], 2);
         }
+
         upPart += surfCoef[surfCoef.length - 1];
         double lambda = upPart / botPart; // must be not abs value
 
@@ -243,8 +175,6 @@ public class RunnerM {
 
         return projection;
     }
-
-
 
 
 }
