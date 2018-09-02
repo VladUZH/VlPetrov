@@ -10,18 +10,14 @@ public class ATickM {
 
 
     ATickM(double[] bid, double[] ask){
-
         this.bid = bid.clone();
         this.ask = ask.clone();
-
     }
 
     ATickM(double[] bid, double[] ask, long time){
-
         this.bid = bid.clone();
         this.ask = ask.clone();
         this.time = time;
-
     }
 
     ATickM(){
