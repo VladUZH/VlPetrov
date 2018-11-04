@@ -6,12 +6,12 @@ The repository contains a set of risk management and data analysis tools primari
 
 All included tools have been tested using extensive sets of high-frequency data from the Forex market. Results of the tests are either described in submitted research papers or are under revision at the current moment of time and will by timely uploaded to this repository later.
 
-<h3>The main folder contains several methods which could be directly used for data analysis and some special indicators:</h3>
+<h3>The main folder contains several methods which could be directly used for high-frequency data analysis and some special risk-management indicators:</h3>
 
 <ul>
-<li><strong><a href="https://github.com/VladUZH/VlPetrov/blob/master/src/LiquidityIndicator_Analysis.java">LiquidityIndicator_Analysis.java</a></strong> - computes liquidity of a real time series. It is a simple shell for the LiquidityIndicator class from the ievent package. It just needs a path to a file and several parameters.</li>
-<li><strong><a href="https://github.com/VladUZH/VlPetrov/blob/master/src/InstantaneousVolatilityActivity_Analisys.java">InstantaneousVolatilityActivity_Analisys.java</a></strong> - this class is in essence a practical implementation of the "ievents/VolatilitySeasonality".</li>
-<li><strong><a href="https://github.com/VladUZH/VlPetrov/blob/master/src/VolatilityEstimatorMovingWindow_Analysis.java">VolatilityEstimatorMovingWindow_Analysis.java</a></strong> - this class can be used to perform a complete analysis of a given price set</li>
+<li><strong><a href="https://github.com/VladUZH/VlPetrov/blob/master/src/LiquidityIndicator_Analysis.java">LiquidityIndicator_Analysis.java</a></strong> - computes liquidity of a real historical time series of tiak-by-tick price data. It is a wrapper for the "LiquidityIndicator" class from the "ievent" folder. To run the program on needs to specify the path to the anylised file and setup several parameters described in the body of the program.</li>
+<li><strong><a href="https://github.com/VladUZH/VlPetrov/blob/master/src/InstantaneousVolatilityActivity_Analisys.java">InstantaneousVolatilityActivity_Analisys.java</a></strong> - this class is the extention of the "ievents/VolatilitySeasonality" class modifies to be applicable to the set of historical or real-time high-frequency price data.</li>
+<li><strong><a href="https://github.com/VladUZH/VlPetrov/blob/master/src/VolatilityEstimatorMovingWindow_Analysis.java">VolatilityEstimatorMovingWindow_Analysis.java</a></strong> - this class is designed to perform the volatility analysis of high-frequency data computed in two ways: using the squared return function which calculates the aggregated standart deviation of the time series over time intervals of the fixed length and using the method based on the directional-change intrinsic time approach of interpreting evolution of high-frequency prices.</li>
 </ul>
 
 
