@@ -30,7 +30,7 @@ All included tools have been tested using extensive sets of high-frequency data 
 <li><strong><a href="https://github.com/VladUZH/VlPetrov/blob/master/src/ievents/DcOSmultD.java">DcOSmultiD.java</a></strong> - is the extention of the one-dimentional version of the directional-change intrinsic time algorithm (class <a href="https://github.com/VladUZH/VlPetrov/blob/master/src/ievents/DcOS.java">DcOS.java</a>) to the multidimensional space. The space is formed by orthogonally placed independent exchange rates. The description of the multidimensional approach is provided in the paper "Multidimensional Directional-Change Intrinsic Time" (work in progress)</li>
 </ul>
 
-<h3>Folder <em><a href="https://github.com/VladUZH/VlPetrov/tree/master/src/scalinglaws">scalinglaws</a></em> contains scaling laws from the "Patterns in high-frequency FX data: Discovery of 12 empirical scaling laws":</h3>
+<h3>Folder <em><a href="https://github.com/VladUZH/VlPetrov/tree/master/src/scalinglaws">scalinglaws</a></em> contains tools which allow extractracting scaling laws based on the directional-change intrinsic time as described in the paper "Patterns in high-frequency FX data: Discovery of 12 empirical scaling laws" (available <a href)="https://www.tandfonline.com/doi/full/10.1080/14697688.2010.481632?casa_token=m2x82H9VNj0AAAAA:HxxRW0hHJb9vwtkg5S3ukhfglI58AzSWAND89y7JXRY5VIGprfGcuQvoR6VTPkgV4yP_lhogrPVsbg">online</a>). Numbers of scaling laws follow the same order selected in the paper:</h3>
 <ul>
 <li><strong><a href="https://github.com/VladUZH/VlPetrov/blob/master/src/scalinglaws/MeanPriceMoveScalingLaw.java">MeanPriceMoveScalingLaw.java</a></strong> - "Mean price move scaling law", Law 0a, p=1</li>
 <li><strong><a href="https://github.com/VladUZH/VlPetrov/blob/master/src/scalinglaws/QuadraticMeanPriceMoveScalingLaw.java">QuadraticMeanPriceMoveScalingLaw.java</a></strong> - "Quadratic mean price move scaling law", Law 0a, p=2</li>
@@ -55,23 +55,23 @@ All included tools have been tested using extensive sets of high-frequency data 
 
 </ul>
 
-<h3>Folder <em><a href="https://github.com/VladUZH/VlPetrov/tree/master/src/market">market</a></em> contains:</h3>
+<h3>Folder <em><a href="https://github.com/VladUZH/VlPetrov/tree/master/src/market">market</a></em> contains aset of auxillary tools facilitating the real application of risk management tools present in the repository:</h3>
 
 <ul>
-<li><strong><a href="https://github.com/VladUZH/VlPetrov/blob/master/src/market/Price.java">Price.java</a></strong> - is just a simple class for prices. Holds information about Bid, Ask, Time and some derivatives</li>
-<li><strong><a href="https://github.com/VladUZH/VlPetrov/blob/master/src/market/SpreadInfo.java">SpreadInfo.java</a></strong> - computes Median, Mean, Min and Max spread of the given price time series</li>
-<li><strong><a href="https://github.com/VladUZH/VlPetrov/blob/master/src/market/PriceMultiD.java">PriceMultiD.java</a></strong> - the multidimensional version of price. Sets of bids and asks are formed by individual components of several exchange rates</li>
+<li><strong><a href="https://github.com/VladUZH/VlPetrov/blob/master/src/market/Price.java">Price.java</a></strong> - is a simple class for elementary tick prices. Holds such tipical information as Bid, Ask, Time of a tick and their derivatives</li>
+<li><strong><a href="https://github.com/VladUZH/VlPetrov/blob/master/src/market/SpreadInfo.java">SpreadInfo.java</a></strong> - applied to a historical (or real-time) time series the method returns Median, Mean, Min and Max spread characteristics</li>
+<li><strong><a href="https://github.com/VladUZH/VlPetrov/blob/master/src/market/PriceMultiD.java">PriceMultiD.java</a></strong> - is a class to keep information on the emultidimansioanl structure of prices used for the multidimensional version of of the directonal-change intrinsic time <a href="https://github.com/VladUZH/VlPetrov/blob/master/src/ievents/DcOSmultD.java">algorithm</a>. Collections of bid and ask prices are formed from individual components of exchange rates used in an experiment</li>
 </ul>
 
-<h3>Folder <em><a href="https://github.com/VladUZH/VlPetrov/tree/master/src/tools">tools</a></em> (some additional traditional methods):</h3>
+<h3>Folder <em>Folder <a href="https://github.com/VladUZH/VlPetrov/tree/master/src/tools">tools</a></em> is a collection of some traditional data management tools employed to analyse historical and real-time high-frequency data:</h3>
 
 <ul>
-<li><strong><a href="https://github.com/VladUZH/VlPetrov/blob/master/src/tools/BM.java">BM.java</a></strong> - this class uses Brownian Motion in order to generate a set of value with given number of elements.</li>
-<li><strong><a href="https://github.com/VladUZH/VlPetrov/blob/master/src/tools/GBM.java">GBM.java</a></strong> - this class uses Geometrical Brownian Motion in order to generate a set of value with given number of elements.</li>
-<li><strong><a href="https://github.com/VladUZH/VlPetrov/blob/master/src/tools/MovingWindowVolatilityEstimator.java">MovingWindowVolatilityEstimator.java</a></strong> - this class is an example of the classical volatility estimator based on the squared returns which could be used to run on the real data in real time</li>
-<li><strong><a href="https://github.com/VladUZH/VlPetrov/blob/master/src/tools/Tools.java">Tools.java</a></strong> - holds a set of auxiliary functions which can be used in order to simplify work on the general ideas. The class is crucial for the stable work of almost all functions</li>
-<li><strong><a href="https://github.com/VladUZH/VlPetrov/blob/master/src/tools/TraditionalVolatility.java">TraditionalVolatility.java</a></strong> - this class is traditional volatility estimator. Computes volatility of a given time series using squared returns</li>
-<li><strong><a href="https://github.com/VladUZH/VlPetrov/blob/master/src/tools/ThetaTime.java">ThetaTime.java</a></strong> - realizes the concept of theta time described in the work of Docorogna et. al. 1993 "A geographical model for the daily and weekly seasonal volatility in the foreign exchange market".</li>
+<li><strong><a href="https://github.com/VladUZH/VlPetrov/blob/master/src/tools/BM.java">BM.java</a></strong> - is the class used to generate time series of given lengths following simple Brownian Motion process</li>
+<li><strong><a href="https://github.com/VladUZH/VlPetrov/blob/master/src/tools/GBM.java">GBM.java</a></strong>  - is the class used to generate time series of given lengths following Geometrical Brownian Motion process</li>
+<li><strong><a href="https://github.com/VladUZH/VlPetrov/blob/master/src/tools/TraditionalVolatility.java">TraditionalVolatility.java</a></strong> - this class is traditional volatility estimator. Computes volatility of a given time series using sum of squared returns</li>
+<li><strong><a href="https://github.com/VladUZH/VlPetrov/blob/master/src/tools/MovingWindowVolatilityEstimator.java">MovingWindowVolatilityEstimator.java</a></strong> - is the classical volatility estimator based on the sum of squared returns computed over fequal time intervals. The class has to be run on historical or real-time tick-by-tick data</li>
+<li><strong><a href="https://github.com/VladUZH/VlPetrov/blob/master/src/tools/Tools.java">Tools.java</a></strong> - is a class containing a subset of simple methods used over the whole researh work on risk-management tools. The class is crucial for the stable work of almost all related experiments</li>
+<li><strong><a href="https://github.com/VladUZH/VlPetrov/blob/master/src/tools/ThetaTime.java">ThetaTime.java</a></strong> - is the class funstionality of which is descibed as the concept of theta time presented in the work of "A geographical model for the daily and weekly seasonal volatility in the foreign exchange market" (avaible <a href="https://www.sciencedirect.com/science/article/pii/026156069390004U">online</a>).</li>
 </ul>
 
 <em>The project leading to this application has received funding from the European Union’s Horizon 2020 research and innovation programme under the Marie Skłodowska-Curie grant agreement No 675044</em>
