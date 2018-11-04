@@ -1,10 +1,10 @@
 # Risk Management Tools based on Scaling Laws and Directional-Change Intrinsic Time
 
-This oublic GitHub repository has been prepared as part of the European Research Initiative <a href="http://bigdatafinance.eu/">BigDataFinance 2015–2019</a>, a H2020 Marie Sklodowska-Curie Innovative Training Network “Training for Big Data in Financial Research and Risk Management”. The name of the corresponding project is "RP12: High Frequency Trading Risk Management Tools Based on Scaling Laws". 
+This public GitHub repository has been prepared as part of the European Research Initiative <a href="http://bigdatafinance.eu/">BigDataFinance 2015–2019</a>, an H2020 Marie Sklodowska-Curie Innovative Training Network “Training for Big Data in Financial Research and Risk Management”. The name of the corresponding project is "RP12: High-Frequency Trading Risk Management Tools Based on Scaling Laws". 
 
-The repository contains a set of risk management and data analysis tools primerelly build using the bases and extensions of the theory of financial scaling laws and the directional-change intrinsic time approach. Each folder contains methods and classed written using the class-based and object-oriented computer-programming language Java. All files have self-exlanatory names and are also equiped by detailed description of the main functionality as well as the references to the literature where these methods were described.
+The repository contains a set of risk management and data analysis tools primarily build using the bases and extensions of the theory of financial scaling laws and the directional-change intrinsic time approach. Each folder contains methods and classed written using the class-based and object-oriented computer-programming language Java. All files have self-explanatory names and are equipped by a detailed description of the main functionality as well as the references to the literature where these methods were described.
 
-All included tools have been tested using extensive sets of high-frequency data from the Forex market. Results of the tests are either  described in submitted research papers or are under revision at the currennt moment of time and will by timely uploaded to this repository later.
+All included tools have been tested using extensive sets of high-frequency data from the Forex market. Results of the tests are either described in submitted research papers or are under revision at the current moment of time and will by timely uploaded to this repository later.
 
 <h3>The main folder contains several methods which could be directly used for data analysis and some special indicators:</h3>
 
