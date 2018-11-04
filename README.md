@@ -4,7 +4,7 @@ This public GitHub repository has been prepared as part of the European Research
 
 The repository contains a set of risk management and data analysis tools primarily build using the bases and extensions of the theory of financial scaling laws and the directional-change intrinsic time approach. Each folder contains methods and classed written using the class-based and object-oriented computer-programming language Java. All files have self-explanatory names and are equipped by a detailed description of the main functionality as well as the references to the literature where these methods were described.
 
-All included tools have been tested using extensive sets of high-frequency data from the Forex market. Results of the tests are either described in submitted research papers or are under revision at the current moment of time and will by timely uploaded to this repository later.
+All included tools have been tested using extensive sets of high-frequency data from the Forex market. Results of the tests are either described in submitted research papers or are under revision at the current moment of time and will by timely uploaded to this repository later. Among the submitted papers: "Instantaneous Volatility Seasonality of Bitcoin in Directional-Change Intrinsic Time" (<a href="https://papers.ssrn.com/sol3/papers.cfm?abstract_id=3243797">at SSRN</a>) and "Agent-Based Model in Directional-Change Intrinsic Time" (<a href="https://papers.ssrn.com/sol3/papers.cfm?abstract_id=3240456">at SSRN</a>).
 
 <h3>The main folder contains several methods which could be directly used for high-frequency data analysis and some special risk-management indicators:</h3>
 
