@@ -1,4 +1,5 @@
 import ievents.*;
+import scalinglaws.DCcountScalingLaw;
 import market.Price;
 import market.SpreadInfo;
 import org.joda.time.DateTime;
@@ -14,7 +15,7 @@ import java.util.Date;
 /**
  * Created by author.
  *
- * This class is in essence a shell for the "ievents/InstantaneousVolatilitySeasonality". Here one can simply create an instance of the
+ * This class is in essence a shell for the "ievents/RealizedVolatilitySeasonality". Here one can simply create an instance of the
  * class and get a result output without any additional actions. The class automatically finds the best thresholds for
  * the volatility analysis.
  *
@@ -30,7 +31,7 @@ import java.util.Date;
  *
  */
 
-public class InstantaneousVolatilityActivity_Analisys {
+public class RealizedVolatilityActivity_Analisys {
 
     private final float MIN_DELTA = 0.0001f; // min size of the intrinsic event threshold used for DCcountScalingLaw
     private final float MAX_DELTA = 0.10f; // max size of the intrinsic event threshold used for DCcountScalingLaw
@@ -49,8 +50,6 @@ public class InstantaneousVolatilityActivity_Analisys {
     private int askIndex, bidIndex, timeIndex; // contains indexes of the price details in a list of the price information
     private SpreadInfo spreadInfo; // in instance of the SpreadInfo which shows detailed information about the spread of the fed data
     private double[] volActivity; // is array of the volatility activity. Basically, we are looking for this array)
-    private int[] dcCountList; // each element of the array contains total number of DC IEs observed within a given time period (bin).
-    private String averagingType; // this important parameter can be either "median" or "average" and shows which method -
     //- should the program use to compute the compute the final volatility using a list of value. "Average" may have huge picks, "Median" may have lost some information.
 
 
@@ -65,9 +64,8 @@ public class InstantaneousVolatilityActivity_Analisys {
      * @param askIndex contains indexes of the price details in a list of the price information
      * @param bidIndex contains indexes of the price details in a list of the price information
      * @param timeIndex contains indexes of the price details in a list of the price information
-     * @param averagingType either "median" or "average"
      */
-    public InstantaneousVolatilityActivity_Analisys(String inputFileName, String dateFormat, int nDecimals, long timeOfBean, int expectedNDCperBean, String delimiter, int askIndex, int bidIndex, int timeIndex, String averagingType){
+    public RealizedVolatilityActivity_Analisys(String inputFileName, String dateFormat, int nDecimals, long timeOfBean, int expectedNDCperBean, String delimiter, int askIndex, int bidIndex, int timeIndex){
         this.inputFileName = inputFileName;
         this.dateFormat = dateFormat;
         this.nDecimals = nDecimals;
@@ -78,7 +76,6 @@ public class InstantaneousVolatilityActivity_Analisys {
         this.bidIndex = bidIndex;
         this.timeIndex = timeIndex;
         this.spreadInfo = new SpreadInfo();
-        this.averagingType = averagingType;
         DateTimeZone.setDefault(DateTimeZone.UTC); // it is an important field: without this the algorithm will
         // interpret time like my local time. https://stackoverflow.com/questions/9397715/defaulting-date-time-zone-to-utc-for-jodatimes-datetime
 
@@ -89,7 +86,7 @@ public class InstantaneousVolatilityActivity_Analisys {
      */
     public void go(){
         bestThreshold = findBestThreshold();
-        computeVolatilitySeasonality(bestThreshold, timeOfBean, averagingType);
+        computeVolatilitySeasonality(bestThreshold, timeOfBean);
         System.out.println("VolatilityActivity: DONE");
     }
 
@@ -136,11 +133,11 @@ public class InstantaneousVolatilityActivity_Analisys {
 
     /**
      * The method compute the desired volatility distribution and saves it in an array.
-     * @param threshold is the size of the optimal threshold used as an input of the InstantaneousVolatilitySeasonality instance
+     * @param threshold is the size of the optimal threshold used as an input of the RealizedVolatilitySeasonality instance
      * @param timeOfBean is the length of a bin in milliseconds
      */
-    private void computeVolatilitySeasonality(double threshold, long timeOfBean, String averagingType){
-        InstantaneousVolatilitySeasonality instantaneousVolatilitySeasonality = new InstantaneousVolatilitySeasonality(threshold, timeOfBean, averagingType);
+    private void computeVolatilitySeasonality(double threshold, long timeOfBean){
+        RealizedVolatilitySeasonality realizedVolatilitySeasonality = new RealizedVolatilitySeasonality(threshold, timeOfBean);
         try {
             BufferedReader bufferedReader = new BufferedReader(new FileReader(inputFileName));
             bufferedReader.readLine();
@@ -148,14 +145,13 @@ public class InstantaneousVolatilityActivity_Analisys {
             long i = 0L;
             while ((priceLine = bufferedReader.readLine()) != null) {
                 Price aPrice = Tools.priceLineToPrice(priceLine, delimiter, nDecimals, dateFormat, askIndex, bidIndex, timeIndex);
-                instantaneousVolatilitySeasonality.run(aPrice);
+                realizedVolatilitySeasonality.run(aPrice);
                 if (i % SHOW_EVERY == 0) {
                     System.out.println(new DateTime(aPrice.getTime()));
                 }
                 i++;
             }
-            volActivity = instantaneousVolatilitySeasonality.finish();
-            dcCountList = instantaneousVolatilitySeasonality.getDcCountList();
+            volActivity = realizedVolatilitySeasonality.finish();
         } catch (Exception ex){
             ex.printStackTrace();
         }
@@ -167,7 +163,7 @@ public class InstantaneousVolatilityActivity_Analisys {
     public void printResults(){
         System.out.println("Bin N, Activity Coefficient, Total Num DC IEs");
         for (int index = 0; index < volActivity.length; index++){
-            System.out.println(index + ", " + volActivity[index] + ", " + dcCountList[index]);
+            System.out.println(index + ", " + volActivity[index]);
         }
     }
 
@@ -181,16 +177,16 @@ public class InstantaneousVolatilityActivity_Analisys {
         Tools.CheckDirectory(dirName);
         try {
             String dateString = new SimpleDateFormat("yyyy-MM-dd_hh-mm-ss").format(new Date());
-            String fileName = "volatActivity_" + name + "_" + String.format("%.5f", bestThreshold) + "_" + dateString + "_" + averagingType + ".csv";
+            String fileName = "volatActivity_" + name + "_" + String.format("%.5f", bestThreshold) + "_" + dateString + ".csv";
             PrintWriter writer = new PrintWriter(dirName + "/" + fileName, "UTF-8");
             if (simpleFormat){
                 for (double activity : volActivity){
                     writer.println(activity);
                 }
             } else {
-                writer.println("Bin;Activity;TotalEvents");
+                writer.println("Bin;Activity");
                 for (int i = 0; i < volActivity.length; i++){
-                    writer.println(i + ";" + volActivity[i] + ";" + dcCountList[i]);
+                    writer.println(i + ";" + volActivity[i]);
                 }
             }
             writer.close();
