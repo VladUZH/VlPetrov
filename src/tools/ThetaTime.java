@@ -29,18 +29,39 @@ public class ThetaTime {
         double collectedActivity = 0;
         int thetaIndex = 0;
         long prevThetaTime = 0;
+
+
+
+
+
         for (int i = 0; i < numActivityBins; i++){
-            long tEndOfBin = (i + 1) * lenOfSeasonalityBin;
+            long tBegOfBin = i * lenOfSeasonalityBin;
+
             collectedActivity += weeklyActivitySeasonality[i];
-            if (collectedActivity >= activityPerThetaBin){
-                while (collectedActivity >= activityPerThetaBin){
-                    thetaTimeStamps[thetaIndex] = (long) (prevThetaTime + (tEndOfBin - prevThetaTime) * activityPerThetaBin / collectedActivity);
-                    collectedActivity -= activityPerThetaBin;
-                    prevThetaTime = thetaTimeStamps[thetaIndex];
-                    thetaIndex += 1;
-                }
+            while (collectedActivity >= activityPerThetaBin){
+                double oldCollectedActivity = collectedActivity - weeklyActivitySeasonality[i];
+                double activityToCover = activityPerThetaBin - oldCollectedActivity;  // the part of the activity covered by the new part of the seasonality
+                thetaTimeStamps[thetaIndex] = (long) (tBegOfBin + lenOfSeasonalityBin * activityToCover / weeklyActivitySeasonality[i]);
+
+                collectedActivity -= activityPerThetaBin;
+                thetaIndex += 1;
             }
         }
+
+
+
+//        for (int i = 0; i < numActivityBins; i++){
+//            long tEndOfBin = (i + 1) * lenOfSeasonalityBin;
+//            collectedActivity += weeklyActivitySeasonality[i];
+////            if (collectedActivity >= activityPerThetaBin){
+//                while (collectedActivity >= activityPerThetaBin){
+//                    thetaTimeStamps[thetaIndex] = (long) (prevThetaTime + (tEndOfBin - prevThetaTime) * activityPerThetaBin / collectedActivity);
+//                    collectedActivity -= activityPerThetaBin;
+//                    prevThetaTime = thetaTimeStamps[thetaIndex];
+//                    thetaIndex += 1;
+//                }
+////            }
+//        }
         thetaTimeStamps[numThetaBins - 1] = MLS_WEEK;
         return thetaTimeStamps;
     }

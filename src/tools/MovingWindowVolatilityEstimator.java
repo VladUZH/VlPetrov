@@ -4,14 +4,14 @@ import java.util.LinkedList;
 
 /**
  * This class is an example of the classical volatility estimator based on the squared returns. The class computes
- * annual volatility on a given moving window period of time. It uses an instance of the tools/VolatilityEstimator.
+ * annual volatility on a given moving window period of time. It uses an instance of the tools/TraditionalVolatility.
  */
 public class MovingWindowVolatilityEstimator {
 
     private long movingWindowMS; // is the size of the used movingWindow in milliseconds
     private LinkedList<Price> priceLinkedList; // is the list of all prices which are in the moving window.
     private long periodLenMs; // is the length of a time period used to compute returns
-    private VolatilityEstimator volatilityEstimator; // instance of the tools/VolatilityEstimator
+    private TraditionalVolatility traditionalVolatility; // instance of the tools/TraditionalVolatility
 
     /**
      * Constructor
@@ -49,12 +49,12 @@ public class MovingWindowVolatilityEstimator {
      * @return volatility of the chosen moving window period
      */
     public double getTotalVolatility() {
-        volatilityEstimator = new VolatilityEstimator(periodLenMs);
+        traditionalVolatility = new TraditionalVolatility(periodLenMs);
         for (Price price : priceLinkedList){
-            volatilityEstimator.run(price);
+            traditionalVolatility.run(price);
         }
-        volatilityEstimator.finish();
-        return volatilityEstimator.getTotalVolatility();
+        traditionalVolatility.finish();
+        return traditionalVolatility.getTotalVolatility();
     }
 
     /**
@@ -62,11 +62,11 @@ public class MovingWindowVolatilityEstimator {
      * @return annual volatility
      */
     public double getAnnualVolatility() {
-        volatilityEstimator = new VolatilityEstimator(periodLenMs);
+        traditionalVolatility = new TraditionalVolatility(periodLenMs);
         for (Price price : priceLinkedList){
-            volatilityEstimator.run(price);
+            traditionalVolatility.run(price);
         }
-        volatilityEstimator.finish();
-        return volatilityEstimator.getAnnualVolatility();
+        traditionalVolatility.finish();
+        return traditionalVolatility.getAnnualVolatility();
     }
 }

@@ -35,7 +35,7 @@ public class InstantaneousVolatilitySeasonality {
     private long[] timestampsOfBins;
 
     /**
-     * @param threshold is size of the threshold used to find the number of DC and the variability of overshoots
+     * @param threshold is size of the threshold used to find the number of DC
      * @param lenOfBin is length (in milliseconds) of one bin
      */
     public InstantaneousVolatilitySeasonality(double threshold, long lenOfBin){
