@@ -28,11 +28,6 @@ public class ThetaTime {
 
         double collectedActivity = 0;
         int thetaIndex = 0;
-        long prevThetaTime = 0;
-
-
-
-
 
         for (int i = 0; i < numActivityBins; i++){
             long tBegOfBin = i * lenOfSeasonalityBin;
@@ -48,20 +43,6 @@ public class ThetaTime {
             }
         }
 
-
-
-//        for (int i = 0; i < numActivityBins; i++){
-//            long tEndOfBin = (i + 1) * lenOfSeasonalityBin;
-//            collectedActivity += weeklyActivitySeasonality[i];
-////            if (collectedActivity >= activityPerThetaBin){
-//                while (collectedActivity >= activityPerThetaBin){
-//                    thetaTimeStamps[thetaIndex] = (long) (prevThetaTime + (tEndOfBin - prevThetaTime) * activityPerThetaBin / collectedActivity);
-//                    collectedActivity -= activityPerThetaBin;
-//                    prevThetaTime = thetaTimeStamps[thetaIndex];
-//                    thetaIndex += 1;
-//                }
-////            }
-//        }
         thetaTimeStamps[numThetaBins - 1] = MLS_WEEK;
         return thetaTimeStamps;
     }
